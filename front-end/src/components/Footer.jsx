@@ -8,7 +8,7 @@ function Footer() {
                     {/* Column 1: Logo and Description */}
                     <div className="flex flex-col items-center md:items-start">
                         <img src="https://flowbite.com/docs/images/logo.svg" alt="Logo" className="h-10 mb-4" />
-                        <h5 className="text-xl font-semibold mb-2">Booking Hotel</h5>
+                        {/* <h5 className="text-xl font-semibold mb-2">Booking Hotel</h5> */}
                         <p className="text-gray-400 text-sm">
                             Discover the best places to stay with our curated hotel list. Your perfect stay awaits.
                         </p>
