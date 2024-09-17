@@ -5,18 +5,19 @@ import Banner from '../components/Banner';
 import HotelList from '../components/HotelList';
 import HotelBooked from '../components/HotelBooked.jsx';
 
-function Home() {
+const Home = () => {
     return (
         <>
             <Header />
             <Banner />
-            <div className="bg-gray-100 min-h-screen">
-                <HotelList />
+            <HotelList />
+            <HotelBooked />
+            {/* <div className="bg-gray-100 min-h-screen">
+                
             </div>
             <div className="bg-gray-100 min-h-screen">
-                <HotelBooked />
-            </div>
-
+                
+            </div> */}
             <Footer />
         </>
     );

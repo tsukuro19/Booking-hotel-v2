@@ -1,7 +1,7 @@
 // src/components/SearchBar.jsx
 import React from 'react';
 
-function SearchBar() {
+const SearchBar = () => {
     return (
         <div className="relative container mx-auto px-6 md:px-12 flex flex-col items-center text-center">
             <form className="w-full max-w-6xl mx-auto bg-white rounded-lg p-6 shadow-lg flex items-center gap-4 absolute bottom-0" style={{ marginBottom: '40px' }}>

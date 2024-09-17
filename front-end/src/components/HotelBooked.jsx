@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import HotelCard from "./HotelCard"; // Import component HotelCard
 
-function HotelList() {
+const HotelList = () => {
     const hotels = [
         { image: "https://via.placeholder.com/300", name: "Luxury Hotel", rating: 4.5, price: 120 },
         { image: "https://via.placeholder.com/300", name: "Comfort Stay", rating: 4.0, price: 80 },

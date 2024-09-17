@@ -1,7 +1,7 @@
 // src/components/HotelCard.jsx
 import React from "react";
 
-function HotelCard({ image, name, rating, price }) {
+const HotelCard = ({ image, name, rating, price }) => {
     return (
         <div className="max-w-sm rounded overflow-hidden shadow-lg bg-white">
             <img className="w-full h-48 object-cover" src={image} alt={name} />

@@ -2,7 +2,7 @@ import React from 'react';
 import SearchBar from './SearchBar';
 import bannerImage from '../assets/banner/banner1.jpg';
 
-function Banner() {
+const Banner = () => {
     return (
         <section className="relative w-full h-[22rem] bg-blue-500 text-white">
             <div className="absolute inset-0">
