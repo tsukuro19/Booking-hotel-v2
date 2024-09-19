@@ -1,6 +1,11 @@
 import React from "react";
 
+<<<<<<< HEAD
+function Footer() {
+
+=======
 const Footer = () => {
+>>>>>>> 69564b56d6d4995942e55bd8b5f0582e688e62fe
     return (
         <footer className="bg-gray-900 text-white py-8 w-full">
             <div className="container mx-auto px-6 md:px-12">
