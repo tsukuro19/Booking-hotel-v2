@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { FaBars, FaUserCircle } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
-function DropdownMenu() {
+const DropdownMenu = () => {
     // Sử dụng state để kiểm soát việc hiển thị menu
     const [isOpen, setIsOpen] = useState(false);
     const navigate = useNavigate();
