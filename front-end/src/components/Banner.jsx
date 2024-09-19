@@ -2,7 +2,7 @@ import React from 'react';
 
 function Banner() {
     return (
-        <section className="relative bg-blue-500 text-white py-12">
+        <section className="relative bg-blue-500 text-white py-12 z-10">
             <div className="absolute inset-0">
                 <img
                     src="https://example.com/your-banner-image.jpg"
