@@ -5,13 +5,13 @@ import HotelCard from "./HotelCard"; // Import component HotelCard
 
 const HotelList = () => {
     const hotels = [
-        { image: "https://via.placeholder.com/300", name: "Luxury Hotel", rating: 4.5, price: 120 },
-        { image: "https://via.placeholder.com/300", name: "Comfort Stay", rating: 4.0, price: 80 },
-        { image: "https://via.placeholder.com/300", name: "Budget Inn", rating: 3.5, price: 60 },
-        { image: "https://via.placeholder.com/300", name: "Premium Resort", rating: 4.8, price: 150 },
-        { image: "https://via.placeholder.com/300", name: "Urban Hotel", rating: 4.2, price: 90 },
-        { image: "https://via.placeholder.com/300", name: "Seaside Villa", rating: 4.7, price: 200 },
-        { image: "https://via.placeholder.com/300", name: "Mountain Escape", rating: 4.7, price: 110, },
+        { image: "https://via.placeholder.com/300", name: "Luxury Hotel", rating: 4.5, location: "Krakhów, Ba Lan" },
+        { image: "https://via.placeholder.com/300", name: "Comfort Stay", rating: 4.0, location: "Krakhów, Ba Lan" },
+        { image: "https://via.placeholder.com/300", name: "Budget Inn", rating: 3.5, location: "Krakhów, Ba Lan" },
+        { image: "https://via.placeholder.com/300", name: "Premium Resort", rating: 4.8, location: "Krakhów, Ba Lan" },
+        { image: "https://via.placeholder.com/300", name: "Urban Hotel", rating: 4.2, location: "Krakhów, Ba Lan" },
+        { image: "https://via.placeholder.com/300", name: "Seaside Villa", rating: 4.7, location: "Krakhów, Ba Lan" },
+        { image: "https://via.placeholder.com/300", name: "Mountain Escape", rating: 4.7, location: "Krakhów, Ba Lan", },
     ];
 
     const [currentPage, setCurrentPage] = useState(0);
@@ -36,7 +36,7 @@ const HotelList = () => {
         <div className="container mx-auto py-8">
             <h2 className="text-3xl font-semibold mb-6 text-center">List of highly rated hotels</h2>
 
-            <div className="relative">
+            <div className="relative max-w-6xl mx-auto">
                 {/* Nút mũi tên trái */}
                 <button
                     onClick={handlePrev}
@@ -54,7 +54,7 @@ const HotelList = () => {
                             image={hotel.image}
                             name={hotel.name}
                             rating={hotel.rating}
-                            price={hotel.price}
+                            location={hotel.location}
                         />
                     ))}
                 </div>

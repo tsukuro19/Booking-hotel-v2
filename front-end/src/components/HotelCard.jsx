@@ -1,7 +1,7 @@
 // src/components/HotelCard.jsx
 import React from "react";
 
-const HotelCard = ({ image, name, rating, price }) => {
+const HotelCard = ({ image, name, rating, location }) => {
     return (
         <div className="max-w-sm rounded overflow-hidden shadow-lg bg-white">
             <img className="w-full h-48 object-cover" src={image} alt={name} />
@@ -10,8 +10,8 @@ const HotelCard = ({ image, name, rating, price }) => {
                 <p className="text-gray-700 text-base">
                     {rating} ★
                 </p>
-                <p className="text-gray-900 font-semibold text-lg">
-                    ${price} / night
+                <p className="text-gray-900 text-base">
+                    {location}
                 </p>
             </div>
             <div className="px-6 pt-4 pb-2">

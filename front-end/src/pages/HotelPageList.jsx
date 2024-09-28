@@ -12,9 +12,9 @@ import DropdownFilter from '../components/Filter/DropdownFilter';
 const types = [
     { value: 'hotel', label: 'Hotel' },
     { value: 'apartment', label: 'Apartment' },
-    { value: 'houses', label: 'Houses' },
-    { value: 'villas', label: 'Villas' },
-    { value: 'homestays', label: 'Homestays' },
+    { value: 'house', label: 'House' },
+    { value: 'villa', label: 'Villa' },
+    { value: 'homestay', label: 'Homestay' },
 ];
 
 // Các filter mẫu (sẽ có thêm PriceFilter)

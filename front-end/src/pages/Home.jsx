@@ -4,6 +4,10 @@ import Header from '../components/Header';
 import Banner from '../components/Banner';
 import HotelList from '../components/HotelList';
 import HotelBooked from '../components/HotelBooked.jsx';
+import PopularDestinations from '../components/PopularDestinations.jsx';
+import BannerPoster from '../components/BannerPoster.jsx';
+import FavoriteDestinations from '../components/FavoriteDestinations.jsx';
+import AccommodationType from '../components/Types/AccommodationType.jsx';
 
 const Home = () => {
     return (
@@ -12,12 +16,10 @@ const Home = () => {
             <Banner />
             <HotelList />
             <HotelBooked />
-            {/* <div className="bg-gray-100 min-h-screen">
-                
-            </div>
-            <div className="bg-gray-100 min-h-screen">
-                
-            </div> */}
+            <AccommodationType />
+            <PopularDestinations />
+            <BannerPoster />
+            <FavoriteDestinations />
             <Footer />
 
         </>

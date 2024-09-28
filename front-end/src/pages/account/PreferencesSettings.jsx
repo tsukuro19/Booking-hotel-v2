@@ -5,7 +5,7 @@ import { MdOutlinePrivacyTip } from "react-icons/md";
 const PreferencesSettings = () => {
     return (
         <div className="flex justify-center p-6">
-            <div className="w-1/5 border border-gray-300 rounded-md">
+            <div className="w-1/5 border border-gray-300 rounded-md h-[100%] max-h-screen">
                 <ul className="space-y-2">
                     <li className="flex items-center py-2 px-4">
                         <FaRegUserCircle className="text-xl mr-2" />
@@ -19,12 +19,12 @@ const PreferencesSettings = () => {
                     <div className="border-t border-gray-300" />
                     <li className="flex items-center py-2 px-4">
                         <FaLock className="text-xl mr-2" />
-                        <a href="#" className="text-blue-500">Cài đặt bảo mật</a>
+                        <a href="/account/security" className="text-blue-500">Cài đặt bảo mật</a>
                     </li>
                     <div className="border-t border-gray-300" />
                     <li className="flex items-center py-2 px-4">
                         <FaCreditCard className="text-xl mr-2" />
-                        <a href="#" className="text-blue-500">Phương thức thanh toán</a>
+                        <a href="/account/payment" className="text-blue-500">Phương thức thanh toán</a>
                     </li>
                     <div className="border-t border-gray-300" />
                     <li className="flex items-center py-2 px-4">

@@ -29,7 +29,7 @@ const MySettings = () => {
                         <p className="text-black mb-2">
                             Thay đổi ngôn ngữ, tiền tệ và các yêu cầu hỗ trợ khuyết tật.
                         </p>
-                        <a href="#" className="text-blue-500 hover:underline">Quản lý tuỳ chọn</a>
+                        <a href="/account/preferences" className="text-blue-500 hover:underline">Quản lý tuỳ chọn</a>
                     </div>
                 </div>
 
@@ -41,7 +41,7 @@ const MySettings = () => {
                         <p className="text-black mb-2">
                             Thay đổi thiết lập bảo mật, cài đặt xác thực bổ sung hoặc xoá tài khoản của Quý vị.
                         </p>
-                        <a href="#" className="text-blue-500 hover:underline">Quản lý bảo mật tài khoản</a>
+                        <a href="/account/security" className="text-blue-500 hover:underline">Quản lý bảo mật tài khoản</a>
                     </div>
                 </div>
 
@@ -53,7 +53,7 @@ const MySettings = () => {
                         <p className="text-black mb-2">
                             Thêm hoặc bỏ các phương thức thanh toán một cách bảo mật dễ để đặt hơn.
                         </p>
-                        <a href="#" className="text-blue-500 hover:underline">Quản lý thông tin thanh toán</a>
+                        <a href="/account/payment" className="text-blue-500 hover:underline">Quản lý thông tin thanh toán</a>
                     </div>
                 </div>
 

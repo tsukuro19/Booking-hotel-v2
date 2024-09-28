@@ -5,7 +5,7 @@ import { MdOutlinePrivacyTip } from "react-icons/md";
 const PersonalSettings = () => {
     return (
         <div className="flex justify-center p-6">
-            <div className="w-1/5 border border-gray-300 rounded-md">
+            <div className="w-1/5 border border-gray-300 rounded-md h-[100%] max-h-screen">
                 <ul className="space-y-2">
                     <li className="flex items-center py-2 px-4">
                         <FaRegUserCircle className="text-xl mr-2" />
