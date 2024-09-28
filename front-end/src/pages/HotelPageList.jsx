@@ -31,7 +31,7 @@ const filters = [
     },
 ];
 
-const HotelDetails = () => {
+const HotelPageList = () => {
     //setSelectedType: hàm dùng để thay đổi giá trị của selectedType. Mỗi khi hàm đc gọi sẽ cập nhật lại giá trị của selectedType cho setSelectedType
     const [selectedType, setSelectedType] = useState('');
     const [selectedFilters, setSelectedFilters] = useState([]);
@@ -119,4 +119,4 @@ const HotelDetails = () => {
     );
 }
 
-export default HotelDetails;
+export default HotelPageList;

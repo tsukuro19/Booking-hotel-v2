@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import HotelCard from "./HotelCard"; // Import component HotelCard
 
-const HotelList = () => {
+const HotelBooked = () => {
     const hotels = [
         { image: "https://via.placeholder.com/300", name: "Luxury Hotel", rating: 4.5, price: 120 },
         { image: "https://via.placeholder.com/300", name: "Comfort Stay", rating: 4.0, price: 80 },
@@ -72,4 +72,4 @@ const HotelList = () => {
     );
 }
 
-export default HotelList;
+export default HotelBooked;
