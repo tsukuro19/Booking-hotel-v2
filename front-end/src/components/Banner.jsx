@@ -4,11 +4,9 @@ import bannerImage from '../assets/banner/banner1.jpg';
 
 const Banner = () => {
     return (
-<<<<<<< HEAD
-        <section className="relative bg-blue-500 text-white py-12 z-10">
-=======
-        <section className="relative w-full h-[22rem] bg-blue-500 text-white">
->>>>>>> 69564b56d6d4995942e55bd8b5f0582e688e62fe
+
+        <section className="relative w-full h-[22rem] bg-blue-500 text-white z-10">
+
             <div className="absolute inset-0">
                 <img
                     src={bannerImage}
@@ -24,4 +22,4 @@ const Banner = () => {
     );
 }
 
-export default Banner;
+export default Banner

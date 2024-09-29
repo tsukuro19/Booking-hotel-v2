@@ -17,7 +17,6 @@ const Login = (props) => {
         let res = await postLogin(email, password)
         if (res && res.EC === 0) {
             toast.success("Success");
-
         }
         if (res && res.EC !== 0) {
             toast.error("Error")
