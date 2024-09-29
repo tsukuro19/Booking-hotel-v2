@@ -7,6 +7,9 @@ import HotelDetails from './pages/HotelDetails';
 // import ContactPage from './pages/Contact'
 import './App.css';
 import Login from './components/Auth/Login';
+import Search from './pages/Search';
+import BookingForm from './components/Forms/Booking/BoongkingForm';
+import Booking from './pages/Booking';
 // import Footer from './components/Footer';
 // import Header from './components/Header';
 
@@ -20,7 +23,8 @@ function App() {
       </Route>
       <Route path='/login' element={<Login />} />
       <Route path="/hoteldetails" element={<HotelDetails />} />
-
+      <Route path="/search" element={<Search />} />
+      <Route path="/booking" element={<Booking />} />
 
     </Routes>
     // </BrowserRouter>
