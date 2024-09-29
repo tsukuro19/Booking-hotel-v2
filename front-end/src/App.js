@@ -11,7 +11,13 @@ import PaymentSettings from './pages/account/PaymentSettings';
 
 import './App.css';
 import Login from './components/Auth/Login';
+
+import Search from './pages/Search';
+import BookingForm from './components/Forms/Booking/BoongkingForm';
+import Booking from './pages/Booking';
+
 // import { ToastContainer } from 'react-toastify';
+
 // import Footer from './components/Footer';
 // import Header from './components/Header';
 
@@ -23,6 +29,12 @@ function App() {
         {/* <Route index element={<Home />} /> */}
       </Route>
       <Route path='/login' element={<Login />} />
+
+      <Route path="/hoteldetails" element={<HotelDetails />} />
+      <Route path="/search" element={<Search />} />
+      <Route path="/booking" element={<Booking />} />
+
+
       <Route path="/hotelpagelist" element={<HotelPageList />} />
       <Route path="/hoteldetailslist" element={<HotelDetailsList />} />
       <Route path="/account" element={<Account />} />
@@ -41,6 +53,7 @@ function App() {
         draggable
         pauseOnHover
       /> */}
+
     </Routes>
     // </BrowserRouter>
   );
