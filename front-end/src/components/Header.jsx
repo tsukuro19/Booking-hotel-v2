@@ -38,13 +38,13 @@ const Header = () => {
                             </NavLink>
                         </li>
                         <li>
-                            <NavLink to="/hoteldetails" className="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent" activeClassName="text-blue-700">
-                                Detail
+                            <NavLink to="/hoteldetailslist" className="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent" activeClassName="text-blue-700">
+                                DetailHotel
                             </NavLink>
                         </li>
                         <li>
-                            <NavLink to="/services" className="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent" activeClassName="text-blue-700">
-                                Services
+                            <NavLink to="/hotelpagelist" className="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent" activeClassName="text-blue-700">
+                                ListHotel
                             </NavLink>
                         </li>
                         <li>
