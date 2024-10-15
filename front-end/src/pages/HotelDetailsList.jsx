@@ -9,10 +9,12 @@ const HotelDetailsList = () => {
     return (
         <>
             <Header />
-            <ImagesSection />
-            <DetailsSection />
-            <NearbyServices />
-            <ReviewRating />
+            <div className="py-32">
+                <ImagesSection />
+                <DetailsSection />
+                {/* <NearbyServices /> */}
+                <ReviewRating />
+            </div>
             <Footer />
         </>
     );

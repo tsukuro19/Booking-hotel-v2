@@ -8,6 +8,8 @@ import PersonalSettings from './pages/account/PersonalSettings';
 import PreferencesSettings from './pages/account/PreferencesSettings';
 import SecuritySettings from './pages/account/SecuritySettings';
 import PaymentSettings from './pages/account/PaymentSettings';
+import PrivacySettings from './pages/account/PrivacySettings';
+import EmailSettings from './pages/account/EmailSettings';
 
 import './App.css';
 import Login from './components/Auth/Login';
@@ -30,6 +32,8 @@ function App() {
       <Route path="/account/preferences" element={<PreferencesSettings />} />
       <Route path="/account/security" element={<SecuritySettings />} />
       <Route path="/account/payment" element={<PaymentSettings />} />
+      <Route path="/account/privacy" element={<PrivacySettings />} />
+      <Route path="/account/email" element={<EmailSettings />} />
       {/* <ToastContainer
         position="top-right"
         autoClose={5000}

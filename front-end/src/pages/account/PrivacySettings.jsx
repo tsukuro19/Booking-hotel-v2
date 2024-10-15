@@ -2,7 +2,7 @@ import React from 'react';
 import { FaRegUserCircle, FaLock, FaCreditCard, FaRegEye, FaRegBell, FaUsers } from 'react-icons/fa';
 import { MdOutlinePrivacyTip } from "react-icons/md";
 
-const PreferencesSettings = () => {
+const PrivacySettings = () => {
     return (
         <div className="flex justify-center p-6">
             <div className="w-1/3 border border-gray-300 rounded-md h-[100%] max-h-screen">
@@ -46,22 +46,14 @@ const PreferencesSettings = () => {
             {/* Chưa điền thì màu chữ nhạt 
             Điền rồi thì màu chữ đậm */}
             <div className="flex-1 rounded-lg p-4 ml-10 max-w-2xl">
-                <h2 className="text-2xl font-bold mb-2">Các tùy chọn</h2>
-                <h4 className="mb-3">Thay đổi ngôn ngữ, tiền tệ và các yêu cầu hỗ trợ.</h4>
+                <h2 className="text-2xl font-bold mb-2">Cài đặt quyền riêng tư</h2>
+                <h4 className="mb-3">Thực hiện quyền riêng tư và kiểm soát cách dữ liệu của bạn được sử dụng.</h4>
                 <div className="border-t border-gray-300 mb-4" />
                 <div className="mb-4">
-                    <p className="font-semibold">Tiền tệ:</p>
+                    <p className="font-semibold">Cài đặt quyền riêng tư</p>
                     <div className="flex items-center justify-between">
-                        <p>Chọn loại tiền tệ</p>
-                        <button className="text-blue-600">Chỉnh sửa</button>
-                    </div>
-                </div>
-                <div className="border-t border-gray-300 mb-4" />
-                <div className="mb-4">
-                    <p className="font-semibold">Ngôn ngữ:</p>
-                    <div className="flex items-center justify-between">
-                        <p>Chọn ngôn ngữ</p>
-                        <button className="text-blue-600">Chỉnh sửa</button>
+                        <p></p>
+                        <button className="text-blue-600">Quản lý</button>
                     </div>
                 </div>
             </div>
@@ -69,4 +61,4 @@ const PreferencesSettings = () => {
     );
 };
 
-export default PreferencesSettings;
+export default PrivacySettings;

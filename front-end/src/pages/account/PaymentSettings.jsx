@@ -5,7 +5,7 @@ import { MdOutlinePrivacyTip } from "react-icons/md";
 const PaymentSettings = () => {
     return (
         <div className="flex justify-center p-6">
-            <div className="w-1/5 border border-gray-300 rounded-md h-[100%] max-h-screen">
+            <div className="w-1/3 border border-gray-300 rounded-md h-[100%] max-h-screen">
                 <ul className="space-y-2">
                     <li className="flex items-center py-2 px-4">
                         <FaRegUserCircle className="text-xl mr-2" />
@@ -50,7 +50,7 @@ const PaymentSettings = () => {
                 <h4 className="mb-3">Thêm hoặc bỏ các phương thức thanh toán một cách bảo mật để dễ đặt hơn.</h4>
                 <div className="border-t border-gray-300 mb-4" />
                 <div className="mb-4">
-                    <p className="font-semibold">Thẻ thanh toán:</p>
+                    <p className="font-semibold">Thẻ thanh toán</p>
                     <div className="flex items-center justify-between">
                         <p>Thanh toán bằng thẻ mới</p>
                         <button className="text-blue-600">Thêm thẻ</button>

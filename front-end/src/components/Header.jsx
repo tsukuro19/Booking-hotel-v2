@@ -1,8 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import DropdownMenu from './DropdownMenu';
-import { useNavigate } from "react-router-dom";
-
+import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
     const navigate = useNavigate();
@@ -10,63 +9,91 @@ const Header = () => {
     const handleNavigation = (path) => {
         navigate(path);
     };
+
     return (
-        <nav className="bg-white border-gray-200 px-2 sm:px-4 py-8 rounded dark:bg-gray-900">
-            <div className="container flex flex-wrap items-center justify-between mx-auto">
+        <nav className="w-full absolute top-0 left-0 z-50 bg-transparent text-white px-10 py-4">
+            <div className="max-w-7xl mx-auto flex items-center justify-between">
+                {/* Logo */}
                 <NavLink to="/" className="flex items-center">
-                    {/* Tăng kích thước logo */}
-                    <img src="https://flowbite.com/docs/images/logo.svg" className="h-10 mr-3 sm:h-12" alt="Logo" />
+                    <img
+                        src="https://flowbite.com/docs/images/logo.svg"
+                        className="h-12 sm:h-16"
+                        alt="Logo"
+                    />
                 </NavLink>
-                <button
-                    data-collapse-toggle="navbar-default"
-                    type="button"
-                    className="inline-flex items-center p-4 ml-3 text-lg text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-                    aria-controls="navbar-default"
-                    aria-expanded="false"
-                >
-                    <span className="sr-only">Open main menu</span>
-                    <svg className="w-8 h-8" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                        <path fillRule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd"></path>
-                    </svg>
-                </button>
-                <div className="hidden w-full md:block md:w-auto" id="navbar-default">
-                    <ul className="flex flex-col p-4 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:text-lg md:font-medium md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-                        <li>
-                            <NavLink to="/" exact className="block py-3 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white" activeClassName="text-blue-700">
-                                Home
-                            </NavLink>
-                        </li>
-                        <li>
-                            <NavLink to="/hoteldetailslist" className="block py-3 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent" activeClassName="text-blue-700">
-                                DetailHotel
-                            </NavLink>
-                        </li>
-                        <li>
-                            <NavLink to="/hotelpagelist" className="block py-3 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent" activeClassName="text-blue-700">
-                                ListHotel
-                            </NavLink>
-                        </li>
-                        <li>
-                            <NavLink to="/contact" className="block py-3 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent" activeClassName="text-blue-700">
-                                Contact
-                            </NavLink>
-                        </li>
-                    </ul>
+
+                {/* Navigation Links */}
+                <div className="hidden md:flex space-x-8 text-lg font-medium">
+                    <NavLink
+                        to="/"
+                        className="text-black hover:text-blue-300"
+                        activeClassName="text-blue-500"
+                    >
+                        Places to stay
+                    </NavLink>
+                    <NavLink
+                        to="/hoteldetailslist"
+                        className="text-black hover:text-blue-300"
+                        activeClassName="text-blue-500"
+                    >
+                        DetailHotel
+                    </NavLink>
+                    <NavLink
+                        to="/hotelpagelist"
+                        className="text-black hover:text-blue-300"
+                        activeClassName="text-blue-500"
+                    >
+                        ListHotel
+                    </NavLink>
+                    <NavLink
+                        to="/contact"
+                        className="text-black hover:text-blue-300"
+                        activeClassName="text-blue-500"
+                    >
+                        Contact
+                    </NavLink>
                 </div>
 
-                {/* Tăng kích thước button */}
-                <div>
-                    <button type="button" className="inline-flex items-center p-3 mr-4 text-lg font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onClick={() => handleNavigation('/login')}>
+                {/* Buttons and Dropdown Menu */}
+                <div className="flex items-center space-x-4">
+                    <button
+                        type="button"
+                        className="px-5 py-2 text-lg font-medium text-black bg-blue-500 rounded-lg hover:bg-blue-600 focus:ring-2 focus:ring-blue-300"
+                        onClick={() => handleNavigation('/login')}
+                    >
                         Login
                     </button>
-                    <button type="button" className="inline-flex items-center p-3 mr-2 text-lg font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    <button
+                        type="button"
+                        className="px-5 py-2 text-lg font-medium text-black bg-blue-500 rounded-lg hover:bg-blue-600 focus:ring-2 focus:ring-blue-300"
+                    >
                         Register
                     </button>
                     <DropdownMenu />
                 </div>
+
+                {/* Mobile Menu Button */}
+                <button
+                    type="button"
+                    className="md:hidden p-3 text-white"
+                    aria-controls="mobile-menu"
+                >
+                    <svg
+                        className="w-8 h-8"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <path
+                            fillRule="evenodd"
+                            d="M3 5h14a1 1 0 010 2H3a1 1 0 110-2zm0 6h14a1 1 0 010 2H3a1 1 0 110-2zm0 6h14a1 1 0 010 2H3a1 1 0 110-2z"
+                            clipRule="evenodd"
+                        ></path>
+                    </svg>
+                </button>
             </div>
         </nav>
     );
-}
+};
 
 export default Header;
