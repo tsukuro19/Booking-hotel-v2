@@ -1,26 +1,47 @@
 const ImagesSection = () => {
+    // Mảng chứa URL ảnh mẫu hoặc ảnh của bạn
+    const images = [
+        "https://via.placeholder.com/600x400", // Ảnh lớn
+        "https://via.placeholder.com/300x300", // Ảnh nhỏ 1
+        "https://via.placeholder.com/300x300", // Ảnh nhỏ 2
+        "https://via.placeholder.com/300x300", // Ảnh nhỏ 3
+        "https://via.placeholder.com/300x300", // Ảnh nhỏ 4
+    ];
+
     return (
-        <div className="max-w-7xl mx-auto p-8">
-            {/* Container for all the images */}
-            <div className="grid grid-cols-4 grid-rows-2 gap-4">
-                {/* Large image */}
-                <div className="col-span-2 row-span-2 relative bg-gray-300 rounded-lg h-100">
-                    <div className="absolute bottom-4 left-4 text-white flex items-center">
-                        <div className="bg-white rounded-full w-12 h-12"></div>
-                        <div className="ml-4 text-black">
-                            <p className="text-sm">Listed By:</p>
-                            <p className="font-bold">John Doberman</p>
-                            <p className="text-sm">For: $1000 - $5000</p>
-                        </div>
-                    </div>
+        <div className="container mx-auto py-8 px-4">
+            <div className="max-w-[90rem] mx-auto grid grid-cols-12 gap-6">
+                {/* Ảnh lớn bên trái */}
+                <div className="col-span-7">
+                    <img
+                        src={images[0]}
+                        alt="Large Image"
+                        className="w-full h-full object-cover rounded-lg shadow-lg"
+                    />
                 </div>
 
-                {/* Small images */}
-                <div className="bg-gray-300 rounded-lg h-48"></div>
-                <div className="bg-gray-300 rounded-lg h-48"></div>
-                <div className="bg-gray-300 rounded-lg h-48"></div>
-                <div className="bg-gray-300 rounded-lg h-48 flex items-center justify-center">
-                    <button className="text-xl font-bold text-black">+2<br />More<br />Photos</button>
+                {/* 4 ảnh nhỏ bên phải, chia thành 2x2 */}
+                <div className="col-span-5 grid grid-cols-1 gap-6">
+                    <div className="grid grid-cols-2 gap-4">
+                        {images.slice(1, 3).map((img, index) => (
+                            <img
+                                key={index}
+                                src={img}
+                                alt={`Small Image ${index + 1}`}
+                                className="w-full h-72 object-cover rounded-lg shadow-md transition-transform transform hover:scale-105"
+                            />
+                        ))}
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                        {images.slice(3, 5).map((img, index) => (
+                            <img
+                                key={index}
+                                src={img}
+                                alt={`Small Image ${index + 3}`}
+                                className="w-full h-72 object-cover rounded-lg shadow-md transition-transform transform hover:scale-105"
+                            />
+                        ))}
+                    </div>
                 </div>
             </div>
         </div>

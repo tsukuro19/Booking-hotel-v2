@@ -1,25 +1,35 @@
 import React from 'react';
-import SearchBar from './SearchBar';
-import bannerImage from '../assets/banner/banner1.jpg';
+import Header from './Header'; // Import Header component
+import SearchBar from './SearchBar'; // Import SearchBar component
+import videoBanner from '../assets/banner/video_banner_travel.mp4';
 
 const Banner = () => {
     return (
-
-        <section className="relative w-full h-[22rem] bg-blue-500 text-white z-10">
-
-            <div className="absolute inset-0">
-                <img
-                    src={bannerImage}
-                    alt="Banner"
-                    className="object-cover w-full h-full"
+        <section className="relative w-full h-[80vh] bg-blue-500 text-white">
+            {/* Video background */}
+            <div className="absolute inset-0 overflow-hidden">
+                <video
+                    src={videoBanner}
+                    className="w-full h-full object-cover"
+                    muted
+                    autoPlay
+                    playsInline
+                    loop
                 />
-                <div className="absolute inset-0 bg-black opacity-50"></div>
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-50"></div>
             </div>
-            <div className="relative flex flex-col justify-end h-full">
+
+            {/* Header at the top */}
+            <div className="relative z-20">
+                <Header />
+            </div>
+
+            {/* SearchBar - Positioned in the center of the Banner */}
+            <div className="absolute inset-0 flex items-center justify-center z-30" style={{ marginBottom: '40px', marginTop: '500px' }}>
                 <SearchBar />
             </div>
         </section>
     );
-}
+};
 
-export default Banner
+export default Banner;
