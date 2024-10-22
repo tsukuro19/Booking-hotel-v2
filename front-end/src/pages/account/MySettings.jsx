@@ -4,7 +4,7 @@ import { MdOutlinePrivacyTip } from "react-icons/md";
 
 const MySettings = () => {
     return (
-        <div className="flex justify-center p-6">
+        <div className="flex justify-center p-6 mt-24">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-6xl">
                 {/* Title for Account Settings */}
                 <h2 className="text-3xl font-bold mb-4 col-span-2 text-left">Cài đặt tài khoản</h2>
