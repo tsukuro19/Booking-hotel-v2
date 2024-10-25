@@ -30,7 +30,7 @@ function App() {
       </Route>
       <Route path='/login' element={<Login />} />
 
-      <Route path="/hoteldetails" element={<HotelDetails />} />
+      {/* <Route path="/hoteldetails" element={<HotelDetails />} /> */}
       <Route path="/search" element={<Search />} />
       <Route path="/booking" element={<Booking />} />
 
