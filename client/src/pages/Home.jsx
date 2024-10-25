@@ -1,13 +1,9 @@
-import React from 'react';
+
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import Banner from '../components/Banner';
 import HotelList from '../components/HotelList';
-// import HotelBooked from '../components/HotelBooked'; Không sử dụng nữa
-import PopularDestinations from '../components/PopularDestinations';
-import BannerPoster from '../components/BannerPoster';
-import FavoriteDestinations from '../components/FavoriteDestinations';
-import AccommodationType from '../components/Types/AccommodationType';
+import HotelBooked from '../components/HotelBooked.jsx';
 
 const Home = () => {
     return (
@@ -15,12 +11,15 @@ const Home = () => {
             <Header />
             <Banner />
             <HotelList />
-            {/* <HotelBooked /> */}
-            <PopularDestinations />
-            <BannerPoster />
-            <AccommodationType />
-            <FavoriteDestinations />
+            <HotelBooked />
+            {/* <div className="bg-gray-100 min-h-screen">
+                
+            </div>
+            <div className="bg-gray-100 min-h-screen">
+                
+            </div> */}
             <Footer />
+
         </>
     );
 }

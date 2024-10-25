@@ -1,24 +1,32 @@
-import React from 'react'
+import React from 'react';
 
-const PriceFilter = () => {
+const PriceFilter = ({ minPrice, maxPrice, onPriceChange }) => {
     return (
-        <div>
-            <h4 className="text-md font-semibold mb-2">Max Price</h4>
-            <select
-            // value={selectedPrice}
-            // onChange={(event)=>{
-            //     onChange(
-            //         event.target.value ? parseInt(event.target.value):undefined
-            //     )
-            // }}
-            >
-                <option value="">Select Max Price</option>
-                {[50, 100, 200, 300, 500].map((price) => (
-                    <option value={price}>{price}</option>
-                ))}
-            </select>
+        <div className="mb-4 p-2 bg-gray-100 rounded-md shadow-sm max-w-xs mx-auto">
+            <div className="flex gap-x-4"> {/* Điều chỉnh khoảng cách giữa các trường */}
+                <div className="flex-1">
+                    <label htmlFor="min-price" className="block text-sm font-medium text-gray-700">Min Price</label>
+                    <input
+                        type="number"
+                        id="min-price"
+                        value={minPrice}
+                        onChange={(e) => onPriceChange(e.target.value, maxPrice)}
+                        className="mt-1 w-24 border-gray-300 rounded-md shadow-sm text-sm p-1"
+                    />
+                </div>
+                <div className="flex-1">
+                    <label htmlFor="max-price" className="block text-sm font-medium text-gray-700">Max Price</label>
+                    <input
+                        type="number"
+                        id="max-price"
+                        value={maxPrice}
+                        onChange={(e) => onPriceChange(minPrice, e.target.value)}
+                        className="mt-1 w-24 border-gray-300 rounded-md shadow-sm text-sm p-1"
+                    />
+                </div>
+            </div>
         </div>
-    )
-}
+    );
+};
 
-export default PriceFilter
+export default PriceFilter;
