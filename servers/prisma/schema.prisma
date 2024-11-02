@@ -20,6 +20,8 @@ model Customer{
   email String @unique
   phone_number String
   password String
-  username String
+  username String @unique
   isVerified Boolean
 }
+
+
