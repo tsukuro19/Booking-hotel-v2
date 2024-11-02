@@ -9,7 +9,7 @@ export class JwtStrategy extends PassportStrategy(Strategy,"jwt_node") {
     constructor(private readonly primasService:PrismaModuleService) {
         super({
             jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(), // Bearer ...
-            ignoreExpiration: false, // bật tắt expiredIn
+            ignoreExpiration: true, // bật tắt expiredIn
             secretOrKey: process.env.JWT_SECRET,
         });
     }

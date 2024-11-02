@@ -56,6 +56,9 @@ $ yarn run test:e2e
 
 # test coverage
 $ yarn run test:cov
+
+# watch swagger api
+$ localhost:8080/api
 ```
 
 ## Resources
