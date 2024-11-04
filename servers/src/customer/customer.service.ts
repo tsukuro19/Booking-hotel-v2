@@ -20,8 +20,8 @@ export class CustomerService {
         });
     }
 
-    async getCustomerByUsername(usernameFind:string):Promise<Customer>{
-        return this.prisma.customer.findUnique({
+    async getCustomerByUsername(usernameFind:string):Promise<Customer[]>{
+        return this.prisma.customer.findMany({
             where:{
                 username:usernameFind
             }
@@ -44,6 +44,14 @@ export class CustomerService {
     }
 
     async updateCustomer(data:CustomerDto):Promise<any>{
+        const customer=this.prisma.customer.findUnique({
+            where:{
+                email:data.email
+            }
+        });
+        if(!customer){
+            throw new NotFoundException('Customer not found');
+        }
         return this.prisma.customer.update({
             where:{
                 email:data.email
@@ -80,5 +88,16 @@ export class CustomerService {
             }
         })
         return {message:'Password successfully updated'}
+    }
+
+    async updateIsVerified(customerId:number):Promise<Customer>{
+        return this.prisma.customer.update({
+            where:{
+                id:customerId
+            },
+            data:{
+                isVerified:true
+            }
+        })
     }
 }

@@ -9,4 +9,5 @@ export class Customer implements Prisma.CustomerCreateInput{
     password: string;
     username: string;
     isVerified: boolean;
+    tokenId:number;
 }
