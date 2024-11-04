@@ -9,9 +9,9 @@ import { AuthService } from './authentication/auth.service';
 import { PrismaModuleService } from 'src/prisma_module/prisma_module.service';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { CustomerService } from '../customer/customer.service';
-import { EmailService } from './authentication/email.service';
 import { ValidateTokenController } from './controller/validate-token/validate-token.controller';
 import { ValidateTokenModule } from './controller/validate-token/validate-token.module';
+import { EmailService } from 'src/email/email.service';
 
 
 @Module({

@@ -25,7 +25,7 @@ export class CustomerDto {
         description: "Last name of the customer",
         required: true,
         type: "string",
-        example: "Hoang Thien"
+        example: "vongola392112@gmail.com"
     })
     @IsEmail()
     @IsOptional()

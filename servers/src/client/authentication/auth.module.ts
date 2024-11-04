@@ -7,11 +7,11 @@ import { CustomerService } from '../../customer/customer.service';
 import { CustomerModule } from '../../customer/customer.module';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
-import { EmailService } from './email.service';
 import { ValidateTokenModule } from '../controller/validate-token/validate-token.module';
+import { EmailService } from 'src/email/email.service';
 
 @Module({
-  providers: [AuthService, PrismaModuleService, JwtStrategy, CustomerService, EmailService,ValidateTokenModule],
+  providers: [AuthService, PrismaModuleService, JwtStrategy, CustomerService,ValidateTokenModule,EmailService],
   controllers: [AuthController],
   imports: [CustomerModule, PassportModule, JwtModule.register({
     secret: process.env.JWT_SECRET,
