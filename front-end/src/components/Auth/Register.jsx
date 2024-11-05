@@ -1,14 +1,20 @@
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
-import { FaFacebook, FaGoogle, FaApple, FaPhone } from 'react-icons/fa';
+import { FaFacebook, FaGoogle, FaPhone } from 'react-icons/fa';
 import { IoClose } from 'react-icons/io5'; // Icon đóng
 
 const Register = ({ toggleToLogin, toggleModal }) => {
     const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
 
     const handleRegister = () => {
         if (!email) {
             toast.error("Vui lòng nhập email");
+            return;
+        }
+        if (password !== confirmPassword) {
+            toast.error("Mật khẩu không khớp. Vui lòng kiểm tra lại.");
             return;
         }
         toast.success("Đăng ký thành công (Mock)");
@@ -37,7 +43,21 @@ const Register = ({ toggleToLogin, toggleModal }) => {
                         placeholder="Email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
+                    />
+                    <input
+                        type="password"
+                        placeholder="Mật khẩu"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
+                    />
+                    <input
+                        type="password"
+                        placeholder="Nhập lại mật khẩu"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
                     />
 
                     <button
