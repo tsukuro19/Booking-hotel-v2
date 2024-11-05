@@ -4,14 +4,19 @@ import { Request, Response } from 'express';
 import { LoginUserDto } from './dto/login-user.dto';
 import { responseConfig } from 'src/config/response_config';
 import { RegisterUserDto } from './dto/register-user.dto';
-import { ApiBadRequestResponse, ApiCreatedResponse, ApiOperation, ApiParam, ApiProperty } from '@nestjs/swagger';
+import { ApiBadRequestResponse, ApiCreatedResponse, ApiOperation, ApiParam, ApiProperty, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../common/middleware/jwt/jwt.middleware';
 import { UpdatePasswordDto } from './dto/update-password.dto';
+import { GoogleAuthGuard } from 'src/auth-google/middleware/google.middleware';
+import { JwtService } from '@nestjs/jwt';
 
-
+@ApiTags('Authentication Client')
 @Controller('/client/auth')
 export class AuthController {
-    constructor(private readonly authService: AuthService) { }
+    constructor(
+        private readonly authService: AuthService,
+        private jwtService: JwtService,
+    ) { }
 
     @Post('/login')
     @ApiOperation({
@@ -41,19 +46,25 @@ export class AuthController {
 
 
     @ApiOperation({
-        summary:"Register user"
+        summary: "Register user"
     })
     @ApiCreatedResponse({
-        description:"Register user successfully"
+        description: "Register user successfully"
     })
     @ApiBadRequestResponse({
-        description:"Invalid data provided"
+        description: "Invalid data provided"
     })
     // Registration endpoint
     @Post('/register')
     async register(@Req() req: Request, @Res() res: Response, @Body() registerUserDto: RegisterUserDto): Promise<any> {
         try {
             const result = await this.authService.registerWithVerification(registerUserDto);
+            res.cookie("auth_token", result.token, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production', // Only secure in production
+                sameSite: 'strict', // Recommended for security
+                maxAge: 3 * 24 * 60 * 60 * 1000 // 3 days in milliseconds
+            });
             return responseConfig(res, result, "Register success", 200);
         } catch (e) {
             return responseConfig(res, e, "Internal server error", 500);
@@ -61,33 +72,33 @@ export class AuthController {
     }
 
     @ApiOperation({
-        summary:"Update password"
+        summary: "Update password"
     })
     @ApiCreatedResponse({
-        description:"Update password successfully"
+        description: "Update password successfully"
     })
     @ApiBadRequestResponse({
-        description:"Invalid data provided"
+        description: "Invalid data provided"
     })
     // Registration endpoint
     @Post('/update-password')
     async updatePassword(@Req() req: Request, @Res() res: Response, @Body() updatePassword: UpdatePasswordDto): Promise<any> {
-        try{
+        try {
             const result = await this.authService.updatePassword(updatePassword);
             return responseConfig(res, result, "Update password success", 200);
-        }catch(e){
+        } catch (e) {
             return responseConfig(res, e, "Internal server error", 500);
         }
     }
 
     @ApiOperation({
-        summary:"Confirm Email"
+        summary: "Confirm Email"
     })
     @ApiCreatedResponse({
-        description:"Confirm email successfully"
+        description: "Confirm email successfully"
     })
     @ApiBadRequestResponse({
-        description:"Invalid data provided"
+        description: "Invalid data provided"
     })
     @ApiParam({
         name: 'tokenSend',
@@ -103,6 +114,68 @@ export class AuthController {
             return responseConfig(res, result, "Confirm email success", 200);
         } catch (e) {
             return responseConfig(res, e, "Internal server error", 500);
+        }
+    }
+
+    @ApiOperation({
+        summary: "Login with google"
+    })
+    @ApiCreatedResponse({
+        description: "Login with google Successfully"
+    })
+    @ApiBadRequestResponse({
+        description: "Invalid data provided"
+    })
+    // Registration endpoint
+    @Get('/google/login')
+    @UseGuards(GoogleAuthGuard)
+    async loginGoogle() {
+        return { msg: "Login with google success" }
+    }
+
+    @ApiOperation({
+        summary: "Take result after login with google"
+    })
+    @ApiCreatedResponse({
+        description: "Handle redirect with google Successfully"
+    })
+    @ApiBadRequestResponse({
+        description: "Invalid data provided"
+    })
+    // Registration endpoint
+    @Get('/google/redirect')
+    @UseGuards(GoogleAuthGuard)
+    async handleRedirectGoogle(@Req() req: Request, @Res() res: Response): Promise<any> {
+        // Extract the email from the user object that is attached to the request
+        // Ensure req.user has the email property
+        const result=await this.authService.registerJWT(String(req.user));
+        res.cookie("auth_token", result.token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production', // Only secure in production
+            sameSite: 'strict', // Recommended for security
+            maxAge: 3 * 24 * 60 * 60 * 1000 // 3 days in milliseconds
+        });
+        return responseConfig(res, {msg: "Handle redirect with google success"}, "Confirm email success", 200);
+    }
+
+    @ApiOperation({
+        summary: "Check security serialize user"
+    })
+    @ApiCreatedResponse({
+        description: "Check Successfully"
+    })
+    @ApiBadRequestResponse({
+        description: "Invalid data provided"
+    })
+    // Registration endpoint
+    @Get('status')
+    @UseGuards(JwtAuthGuard) // Protect this route with the JWT guard
+    user(@Req() request: Request, @Res() res: Response) {
+        console.log(request.user); // Check the user object in console
+        if (request.user) {
+            return res.status(200).json({ msg: 'Authenticated', user: request.user });
+        } else {
+            return res.status(401).json({ msg: 'Not Authenticated' });
         }
     }
 }

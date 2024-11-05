@@ -9,9 +9,11 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { ValidateTokenModule } from '../controller/validate-token/validate-token.module';
 import { EmailService } from 'src/email/email.service';
+import { googleStrategy } from 'src/auth-google/utils/google.strategy';
+import { AuthGoogleService } from 'src/auth-google/auth-google.service';
 
 @Module({
-  providers: [AuthService, PrismaModuleService, JwtStrategy, CustomerService,ValidateTokenModule,EmailService],
+  providers: [AuthService, PrismaModuleService, JwtStrategy, CustomerService,ValidateTokenModule,EmailService,googleStrategy,AuthGoogleService],
   controllers: [AuthController],
   imports: [CustomerModule, PassportModule, JwtModule.register({
     secret: process.env.JWT_SECRET,

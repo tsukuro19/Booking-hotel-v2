@@ -21,6 +21,12 @@ export class AuthService {
         private jwtService: JwtService,
         private readonly customerService: CustomerService,
         private emailService: EmailService) { }
+    
+    async registerJWT(email:string){
+        return {
+            token: this.jwtService.sign({ email_user:email })
+        }
+    }
 
     async login(loginDTO: LoginUserDto): Promise<any> {
         const { email, password } = loginDTO;

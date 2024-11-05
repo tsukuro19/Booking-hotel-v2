@@ -2,12 +2,14 @@ import { Body, Controller, Delete, Get, HttpException, HttpStatus, Put, Req, Res
 import { CustomerService } from './customer.service';
 import { Request, Response } from 'express';
 import { responseConfig } from 'src/config/response_config';
-import { ApiBadRequestResponse, ApiBody, ApiCreatedResponse, ApiOperation } from '@nestjs/swagger';
+import { ApiBadRequestResponse, ApiBody, ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CustomerDto } from './dto/customer.dto';
 
+@ApiTags('Customer (Dont fetch this)')
 @Controller('customer')
 export class CustomerController {
     constructor(private readonly customerService:CustomerService){}
+    
     @ApiOperation({
         summary:"Fetch all customers"
     })
