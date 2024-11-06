@@ -17,6 +17,9 @@ import Search from './pages/Search';
 import BookingForm from './components/Forms/Booking/BoongkingForm';
 import Booking from './pages/Booking';
 
+import MyHotels from './components/Manage/MyHotels';
+import AddHotel from './components/Manage/AddHotel';
+
 // import { ToastContainer } from 'react-toastify';
 
 // import Footer from './components/Footer';
@@ -45,6 +48,9 @@ function App() {
       <Route path="/account/preferences" element={<PreferencesSettings />} />
       <Route path="/account/security" element={<SecuritySettings />} />
       <Route path="/account/payment" element={<PaymentSettings />} />
+
+      <Route path="/my-hotels" element={<MyHotels />} />
+      <Route path="/add-hotel" element={<AddHotel />} />
       {/* <ToastContainer
         position="top-right"
         autoClose={5000}

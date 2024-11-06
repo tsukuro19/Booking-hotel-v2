@@ -40,8 +40,8 @@ const Header = () => {
                     <NavLink to="/hotelpagelist" className="text-black hover:text-blue-700">
                         ListHotel
                     </NavLink>
-                    <NavLink to="/contact" className="text-black hover:text-blue-700">
-                        Contact
+                    <NavLink to="/my-hotels" className="text-black hover:text-blue-700">
+                        MyHotel
                     </NavLink>
                 </div>
 
