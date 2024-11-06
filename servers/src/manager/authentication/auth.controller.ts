@@ -11,7 +11,7 @@ import { GoogleAuthGuard } from 'src/auth-google/middleware/google.middleware';
 import { JwtService } from '@nestjs/jwt';
 
 @ApiTags('Authentication Client')
-@Controller('/client/auth')
+@Controller('/manager/auth')
 export class AuthController {
     constructor(
         private readonly authService: AuthService,

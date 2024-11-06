@@ -29,7 +29,6 @@ export class AuthGoogleService {
     }
 
     async validateUserCustomer(dataCustomer: CustomerGoogleDto){
-        console.log(dataCustomer);
         const passwordRandom=await this.RandomPassword();
         const existing=await this.prismaService.customer.findUnique({
             where:{
