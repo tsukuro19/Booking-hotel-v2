@@ -16,15 +16,14 @@ export class SessionSerializer extends PassportSerializer {
   }
 
   serializeUser(user: Customer, done: Function) {
-    console.log('Serializer User');
     done(null, user);
   }
 
-  async deserializeUser(payload: any, done: Function) {
-    console.log(payload);
-    const user = await this.prismaService.customer.findUnique({ where: { id: payload.id } });
-    console.log('Deserialize User');
-    console.log(user);
+  async deserializeUser(payload: string, done: Function) {
+    if (payload!=undefined) {
+      return done(null, null);
+    }
+    const user = await this.prismaService.customer.findUnique({ where: { email: payload } });
     return user ? done(null, user) : done(null, null);
   }
 }
