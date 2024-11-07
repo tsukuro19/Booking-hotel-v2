@@ -12,6 +12,7 @@ import { CustomerService } from '../customer/customer.service';
 import { ValidateTokenController } from './controller/validate-token/validate-token.controller';
 import { ValidateTokenModule } from './controller/validate-token/validate-token.module';
 import { EmailService } from 'src/email/email.service';
+import { BlogModule } from './blog/blog.module';
 
 
 @Module({
@@ -23,7 +24,7 @@ import { EmailService } from 'src/email/email.service';
       signOptions: {
         expiresIn: "2d"
       }
-    })
+    }), BlogModule
   ],
   providers: [ClientService,AuthService,PrismaModuleService,CustomerService,EmailService],
   controllers: [ClientController,AuthController,ValidateTokenController]

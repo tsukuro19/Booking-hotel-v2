@@ -64,7 +64,7 @@ const Register = ({ toggleToLogin, toggleModal }) => {
                         onClick={handleRegister}
                         className="w-full bg-gradient-to-r from-pink-500 to-red-500 text-white py-3 rounded-lg font-semibold hover:opacity-90"
                     >
-                        Tiếp tục
+                        Đăng ký
                     </button>
 
                     <div className="flex items-center justify-center my-4">
@@ -74,16 +74,9 @@ const Register = ({ toggleToLogin, toggleModal }) => {
                     </div>
 
                     <button className="w-full flex items-center justify-center text-black py-3 border border-gray-300 rounded-lg hover:bg-gray-100">
-                        <FaFacebook className="mr-2 text-blue-600" /> Tiếp tục với Facebook
-                    </button>
-
-                    <button className="w-full flex items-center justify-center text-black py-3 border border-gray-300 rounded-lg hover:bg-gray-100">
                         <FaGoogle className="mr-2 text-red-500" /> Tiếp tục với Google
                     </button>
 
-                    <button className="w-full flex items-center justify-center text-black py-3 border border-gray-300 rounded-lg hover:bg-gray-100">
-                        <FaPhone className="mr-2 text-green-500" /> Tiếp tục với điện thoại
-                    </button>
                 </div>
 
                 <p className="text-center text-gray-500 mt-6">

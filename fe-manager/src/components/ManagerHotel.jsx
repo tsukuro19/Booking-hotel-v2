@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Sidebar, Menu, MenuItem } from 'react-pro-sidebar';
-import { FiHome, FiUsers, FiClock, FiCalendar, FiDollarSign, FiFile, FiMenu } from 'react-icons/fi';
+import { FiHome, FiUsers, FiMenu, FiBook, FiKey, FiThumbsUp, FiMessageCircle, FiSettings } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 
 const ManagerHotel = () => {
@@ -61,34 +61,34 @@ const ManagerHotel = () => {
                     Guest
                 </MenuItem>
                 <MenuItem
-                    icon={<FiClock size={20} />}
+                    icon={<FiBook size={20} />}
                     component={<Link to="/room" />}
                 >
                     Room
                 </MenuItem>
                 <MenuItem
-                    icon={<FiCalendar size={20} />}
+                    icon={<FiKey size={20} />}
                     component={<Link to="/frontdesk" />}
                 >
                     Front desk
                 </MenuItem>
                 <MenuItem
-                    icon={<FiClock size={20} />}
-                    component={<Link to="/rate" />}
+                    icon={<FiThumbsUp size={20} />}
+                    component={<Link to="/review" />}
                 >
-                    Rate
+                    Review
                 </MenuItem>
                 <MenuItem
-                    icon={<FiDollarSign size={20} />}
+                    icon={<FiMessageCircle size={20} />}
                     component={<Link to="/message" />}
                 >
                     Message
                 </MenuItem>
                 <MenuItem
-                    icon={<FiFile size={20} />}
-                    component={<Link to="/error" />}
+                    icon={<FiSettings size={20} />}
+                    component={<Link to="/account" />}
                 >
-                    Error
+                    Account
                 </MenuItem>
             </Menu>
         </Sidebar>

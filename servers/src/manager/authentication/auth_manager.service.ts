@@ -1,25 +1,25 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaModuleService } from 'src/prisma_module/prisma_module.service';
 import { JwtStrategy } from 'src/strategy/jwt.strategy';
-import { CustomerService } from '../../customer/customer.service';
 import { LoginUserDto } from './dto/login-user.dto';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { RegisterUserDto } from './dto/register-user.dto';
-import { Customer } from 'src/models/customer.model';
+import { Manager } from 'src/models/manager.model';
 import { UpdatePasswordDto } from './dto/update-password.dto';
 import { EmailService } from 'src/email/email.service';
 import * as crypto from 'crypto';
+import { ManagerService } from '../service/manager.service';
 
 @Injectable()
-export class AuthService {
+export class AuthManagerService {
     private otps = new Map<string, string>();
-    private customerTemp = new Map<string, RegisterUserDto>();
+    private managerTemp = new Map<string, RegisterUserDto>();
 
     constructor(
         private readonly primasService: PrismaModuleService,
         private jwtService: JwtService,
-        private readonly customerService: CustomerService,
+        private readonly managerService: ManagerService,
         private emailService: EmailService) { }
 
     async registerJWT(email: string) {
@@ -31,15 +31,15 @@ export class AuthService {
     async login(loginDTO: LoginUserDto): Promise<any> {
         const { email, password } = loginDTO;
 
-        const customer = await this.primasService.customer.findUnique({
+        const manager = await this.primasService.manager.findUnique({
             where: { email }
         })
 
-        if (!customer) {
+        if (!manager) {
             throw new NotFoundException("User not found");
         }
 
-        const validPassword = await bcrypt.compare(password, customer.password);
+        const validPassword = await bcrypt.compare(password, manager.password);
 
         if (!validPassword) {
             throw new NotFoundException('Invalid password')
@@ -53,16 +53,16 @@ export class AuthService {
 
 
     async registerWithVerification(registerDto: RegisterUserDto): Promise<any> {
-        const customer = await this.primasService.customer.findUnique({
+        const manager = await this.primasService.manager.findUnique({
             where: { email: registerDto.email }
         })
-        if (customer) {
+        if (manager) {
             return "User already exists";
         }
         if (registerDto.password !== registerDto.retype_password) {
             throw new BadRequestException('Password does not match');
         }
-        const tokenExist = await this.primasService.token.findUnique({
+        const tokenExist = await this.primasService.tokenHotel.findUnique({
             where: {
                 email: registerDto.email
             }
@@ -82,27 +82,27 @@ export class AuthService {
                 return { message: "A verification email has been sent to your gmail. Please verify your email or try again in 5 minutes." };
             }
         } else {
-            const newCustomer = new Customer();
+            const newManager = new Manager();
             const email = registerDto.email;
-            newCustomer.email = registerDto.email;
-            newCustomer.password = await bcrypt.hash(registerDto.password, 10);;
-            newCustomer.first_name = registerDto.first_name || '';
-            newCustomer.last_name = registerDto.last_name || '';
-            newCustomer.isVerified = false;
-            newCustomer.phone_number = registerDto.phone_number || '';
-            newCustomer.username = registerDto.username || '';
+            newManager.email = registerDto.email;
+            newManager.password = await bcrypt.hash(registerDto.password, 10);;
+            newManager.first_name = registerDto.first_name || '';
+            newManager.last_name = registerDto.last_name || '';
+            newManager.isVerified = false;
+            newManager.phone_number = registerDto.phone_number || '';
+            newManager.username = registerDto.username || '';
 
             const emailToken = crypto.randomBytes(64).toString('hex');
-            const user = await this.customerService.createCustomer(newCustomer);
+            const user = await this.managerService.createManager(newManager);
             //Create token to send email
-            const token = await this.primasService.token.create({
+            const token = await this.primasService.tokenHotel.create({
                 data: {
                     email: user.email,
                     token: emailToken,
-                    customerId: user.id
+                    managerId: user.id
                 }
             })
-            await this.primasService.customer.update({
+            await this.primasService.manager.update({
                 where: {
                     id: user.id
                 },
@@ -113,7 +113,7 @@ export class AuthService {
             this.emailService.sendEmail({
                 recipients: user.email,
                 subject: "Email verification",
-                html: `<a href="http://localhost:${process.env.PORT_SERVER}/client/auth/confirm/${emailToken}">Click here to verify</a>`,
+                html: `<a href="http://localhost:${process.env.PORT_SERVER}/manager/auth/confirm/${emailToken}">Click here to verify</a>`,
                 text: ""
             })
             return {
@@ -121,11 +121,10 @@ export class AuthService {
                 tokenEmail: emailToken
             };
         }
-
     }
 
     async confirmEmail(tokenSend: string): Promise<any> {
-        const tokenData = await this.primasService.token.findUnique({
+        const tokenData = await this.primasService.tokenHotel.findUnique({
             where: {
                 token: tokenSend
             }
@@ -133,22 +132,22 @@ export class AuthService {
         if (!tokenData) {
             throw new NotFoundException("Not found token");
         }
-        const customer = await this.customerService.updateIsVerified(tokenData.customerId);
-        const customerId = tokenData.customerId;
-        await this.primasService.token.delete({
+        const manager = await this.managerService.updateIsVerified(tokenData.managerId);
+        const managerId = tokenData.managerId;
+        await this.primasService.tokenHotel.delete({
             where: {
                 id: tokenData.id
             }
         });
-        await this.primasService.customer.update({
+        await this.primasService.manager.update({
             where: {
-                id: customerId
+                id: managerId
             },
             data: {
                 tokenId: null
             }
         })
-        return customer;
+        return manager;
     }
 
     async updatePassword(data: UpdatePasswordDto): Promise<any> {
@@ -157,7 +156,7 @@ export class AuthService {
             throw new BadRequestException('Password does not match');
         }
         const save_password = await bcrypt.hash(password, 10);
-        const result = await this.customerService.updatePassword(email, oldPassword, save_password);
+        const result = await this.managerService.updatePassword(email, oldPassword, save_password);
         return result;
     }
 }
