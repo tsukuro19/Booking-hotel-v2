@@ -33,6 +33,9 @@ function App() {
       <Route path='/register' element={<Register />} />
 
 
+      <Route path="/hoteldetails" element={<HotelDetailsList />} />
+
+
       {/* <Route path="/hoteldetails" element={<HotelDetails />} /> */}
 
 
