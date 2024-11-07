@@ -1,10 +1,16 @@
 import React from 'react'
 import BookingForm from '../components/Forms/Booking/BoongkingForm'
+import SearchBar from '../components/SearchBar'
+import Banner from '../components/Banner'
+import Header from '../components/Header'
 
 const Booking = () => {
     return (
-        <div className="grid md:grid-cols-[1fr_2fr] p-4">
-
+        <>
+            <div>
+            <Header />
+            </div>
+            <div className="grid md:grid-cols-[1fr_2fr] p-4">
             <div className="grid gap-4 rounded-lg border border-slate-300 p-5 h-fit">
                 <h2 className="text-xl font-bold">Your Booking Details</h2>
                 <div className="border-b py-2">
@@ -32,8 +38,11 @@ const Booking = () => {
                     </div>
                 </div>
             </div>
+            <div>
             <BookingForm />
-        </div>
+            </div>
+            </div>
+        </>
     )
 }
 
