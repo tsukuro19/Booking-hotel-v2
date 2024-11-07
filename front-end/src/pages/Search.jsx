@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { CiCirclePlus, CiCircleMinus } from "react-icons/ci";
-import StarRatingFilter from '../components/StarRatingFilter';
+import StarRatingFilter from '../components/Filter/StarRatingFilter';
 import HotelTypesFilter from '../components/HotelTypesFilter';
 import FacilitiesFilter from '../components/FacilitiesFilter';
-import PriceFilter from '../components/PriceFilter';
+import PriceFilter from '../components/Filter/PriceFilter';
 import SearchResultsCard from '../components/SearchResultsCard';
 
 const Search = () => {

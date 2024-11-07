@@ -11,6 +11,7 @@ import PaymentSettings from './pages/account/PaymentSettings';
 
 import './App.css';
 import Login from './components/Auth/Login';
+import Register from './components/Auth/Register';
 
 import Search from './pages/Search';
 import BookingForm from './components/Forms/Booking/BoongkingForm';
@@ -29,8 +30,14 @@ function App() {
         {/* <Route index element={<Home />} /> */}
       </Route>
       <Route path='/login' element={<Login />} />
+      <Route path='/register' element={<Register />} />
 
-      <Route path="/hoteldetails" element={<HotelDetails />} />
+<<<<<<< HEAD
+      {/* <Route path="/hoteldetails" element={<HotelDetails />} /> */}
+=======
+
+      <Route path="/hoteldetails" element={<HotelDetailsList />} />
+>>>>>>> b7ab5d879783ad5827b321dc24041b767091ddb2
       <Route path="/search" element={<Search />} />
       <Route path="/booking" element={<Booking />} />
 
