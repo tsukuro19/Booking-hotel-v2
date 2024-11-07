@@ -5,8 +5,9 @@ import Dashboard from './components/Dashboard';
 import Guest from './components/Guest';
 import Room from './components/Room';
 import FrontDesk from './components/FrontDesk';
-import Rate from './components/Rate';
+import Review from './components/Review';
 import Message from './components/Message';
+import Account from './components/Account';
 
 function App() {
   return (
@@ -22,8 +23,9 @@ function App() {
             <Route path="/guest" element={<Guest />} />
             <Route path="/room" element={<Room />} />
             <Route path="/frontdesk" element={<FrontDesk />} />
-            <Route path="/rate" element={<Rate />} />
+            <Route path="/review" element={<Review />} />
             <Route path="/message" element={<Message />} />
+            <Route path="/account" element={<Account />} />
 
           </Routes>
         </div>
