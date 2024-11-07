@@ -41,7 +41,7 @@ model Blog{
   title String 
   content String
   createdAt DateTime @default(now())
-  updateAt DateTime
+  updatedAt DateTime
   customerId Int
   customer Customer @relation("CustomerBlogs",fields: [customerId],references: [id])
 }

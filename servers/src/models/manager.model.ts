@@ -1,6 +1,6 @@
 import { Prisma } from "@prisma/client";
 
-export class Customer implements Prisma.ManagerCreateInput{
+export class Manager implements Prisma.ManagerCreateInput{
     id:number;
     first_name: string;
     last_name: string;
