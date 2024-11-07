@@ -49,7 +49,7 @@ const Header = () => {
                 <div className="flex items-center space-x-4">
                     <button
                         type="button"
-                        className="px-5 py-2 text-lg font-medium text-black bg-blue-500 rounded-lg hover:bg-blue-600 focus:ring-2 focus:ring-blue-300"
+                        className="px-5 py-2 text-lg font-medium bg-pink-500 text-white rounded-lg hover:bg-pink-400 focus:ring-2 focus:ring-blue-300"
                         onClick={toggleLoginModal} // Mở modal Login
                     >
                         Login
