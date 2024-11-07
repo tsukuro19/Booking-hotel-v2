@@ -32,12 +32,12 @@ function App() {
       <Route path='/login' element={<Login />} />
       <Route path='/register' element={<Register />} />
 
-<<<<<<< HEAD
+
       {/* <Route path="/hoteldetails" element={<HotelDetails />} /> */}
-=======
+
 
       <Route path="/hoteldetails" element={<HotelDetailsList />} />
->>>>>>> b7ab5d879783ad5827b321dc24041b767091ddb2
+
       <Route path="/search" element={<Search />} />
       <Route path="/booking" element={<Booking />} />
 
