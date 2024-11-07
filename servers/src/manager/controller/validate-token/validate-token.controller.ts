@@ -6,7 +6,7 @@ import { JwtAuthGuard } from 'src/client/common/middleware/jwt/jwt.middleware';
 @UseGuards(JwtAuthGuard)  // Use guard on protected routes
 export class ValidateTokenController {
     @ApiOperation({
-        summary:"Validate token",
+        summary:"Validate token manager",
         description:"Xac thuc token xem con thoi gian hieu luc cua token khong, Neu con thi se tiep tuc dang nhap ma khong can password, nguoc lai phai dang nhap bang password"
     })
     @ApiCreatedResponse({
