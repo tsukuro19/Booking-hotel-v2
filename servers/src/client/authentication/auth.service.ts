@@ -39,10 +39,14 @@ export class AuthService {
             throw new NotFoundException("User not found");
         }
 
+        if(!customer.isVerified) {
+            throw new BadRequestException('User not already verified');
+        }
+
         const validPassword = await bcrypt.compare(password, customer.password);
 
         if (!validPassword) {
-            throw new NotFoundException('Invalid password')
+            throw new BadRequestException('Invalid password')
         }
 
 
@@ -57,7 +61,7 @@ export class AuthService {
             where: { email: registerDto.email }
         })
         if (customer) {
-            return "User already exists";
+            throw new BadRequestException('User already exists');
         }
         if (registerDto.password !== registerDto.retype_password) {
             throw new BadRequestException('Password does not match');
@@ -73,7 +77,7 @@ export class AuthService {
             const timeDiff = (currentDate.getTime() - tokenDate.getTime()) / (1000 * 60);
             // If the token is older than 5 minutes, delete the old token and create a new one
             if (timeDiff > 5) {
-                await this.primasService.tokenHotel.delete({
+                await this.primasService.token.delete({
                     where: {
                         id: tokenExist.id
                     }

@@ -2,13 +2,16 @@ import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import { FaFacebook, FaGoogle, FaPhone } from 'react-icons/fa';
 import { IoClose } from 'react-icons/io5'; // Icon đóng
+import { postRegister } from '../../services/apiService';
 
-const Register = ({ toggleToLogin, toggleModal }) => {
+const Register = ({ toggleToLogin, toggleModal,onRegisterSuccess }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const handleRegister = () => {
+        setLoading(true); // Bật trạng thái loading khi bắt đầu đăng nhập
         if (!email) {
             toast.error("Vui lòng nhập email");
             return;
@@ -17,9 +20,19 @@ const Register = ({ toggleToLogin, toggleModal }) => {
             toast.error("Mật khẩu không khớp. Vui lòng kiểm tra lại.");
             return;
         }
-        toast.success("Đăng ký thành công (Mock)");
-        console.log("Người dùng đăng ký với email:", email);
-        toggleModal(); // Đóng modal sau khi đăng ký thành công
+        postRegister(email, password,confirmPassword)
+            .then(response=>{
+                setLoading(false); // Tắt trạng thái loading khi có phản hồi
+                if(response.data.data.status==400){
+                    toast.error(response.data.data.message);
+                }else{
+                    const token = response.data.data.token;
+                    toast.success("Đăng ký thành công!");
+                    onRegisterSuccess(token);  // Gửi token về header để lưu cookie
+                    toggleModal();
+                    toggleToLogin();
+                }
+            })
     };
 
     return (
