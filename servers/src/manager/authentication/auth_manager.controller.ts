@@ -110,6 +110,7 @@ export class AuthManagerController {
     async confirmEmail(@Req() req: Request, @Res() res: Response): Promise<any> {
         try {
             const result = await this.authService.confirmEmail(req.params.tokenSend);
+            res.redirect("http://localhost:" + process.env.PORT_FRONTEND_CLIENT+"/login");
             return responseConfig(res, result, "Confirm email success", 200);
         } catch (e) {
             return responseConfig(res, e, "Internal server error", 500);

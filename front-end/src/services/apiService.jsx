@@ -1,5 +1,4 @@
 import axios from 'axios';
-import instance from '../utils/axiosCustomize';
 
 
 export const postLogin = (userEmail, userPassword) => {
@@ -28,6 +27,20 @@ export const validateToken = (token) => {
         headers: {
             authorization: `Bearer ${token}`,  // Đảm bảo token được gửi trong header
         }
+    });
+}
+
+export const getProfileById=(userId)=>{
+    return axios.get(`${process.env.REACT_APP_BACK_END_URL}/client/customer-client/${userId}`);
+}
+
+export const updateProfileById=(userId,updatedData)=>{
+    return axios.put(`${process.env.REACT_APP_BACK_END_URL}/client/customer-client/${userId}`,{
+        method:"PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedData)
     });
 }
 

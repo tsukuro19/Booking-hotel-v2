@@ -18,8 +18,8 @@ const Login = ({ toggleToRegister, toggleModal, onLoginSuccess }) => {
                 console.log(response)
                 if (response.data.statusCode==200) {
                     const token = response.data.data.token;
-                    console.log("Token:", token);
-                    onLoginSuccess(token);  // Gửi token về header để lưu cookie
+                    const userId=response.data.data.userId;
+                    onLoginSuccess(token,userId);  // Gửi token về header để lưu cookie
                     // Listen for when the page reload is complete
                     toast.success("Đăng nhập thành công!");
                     window.location.reload();
