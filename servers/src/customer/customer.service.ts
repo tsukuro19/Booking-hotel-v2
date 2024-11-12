@@ -100,4 +100,34 @@ export class CustomerService {
             }
         })
     }
+
+    async getCustomerById(customerId:number):Promise<Customer>{
+        return this.prisma.customer.findUnique({
+            where:{
+                id:customerId
+            }
+        })
+    }
+
+    async updateCustomerById(customerId:number,data:any):Promise<any>{
+        const customer=this.prisma.customer.findUnique({
+            where:{
+                id:customerId
+            }
+        });
+        if(!customer){
+            throw new NotFoundException('Customer not found');
+        }
+        return this.prisma.customer.update({
+            where:{
+                id:customerId
+            },
+            data:{
+                first_name:data.first_name,
+                last_name:data.last_name,
+                phone_number:data.phone_number,
+                username:data.username
+            }
+        })
+    }
 }

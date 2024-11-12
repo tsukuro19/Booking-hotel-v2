@@ -37,6 +37,12 @@ export class AuthController {
                 sameSite: 'strict', // Recommended for security
                 maxAge: 3 * 24 * 60 * 60 * 1000 // 3 days in milliseconds
             });
+            res.cookie("userId", result.userId, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production', // Only secure in production
+                sameSite: 'strict', // Recommended for security
+                maxAge: 3 * 24 * 60 * 60 * 1000 // 3 days in milliseconds
+            });
             return responseConfig(res, result, "Login Success", 200);
         } catch (e) {
             console.error(e);
@@ -60,6 +66,13 @@ export class AuthController {
         try {
             const result = await this.authService.registerWithVerification(registerUserDto);
             res.cookie("auth_token", result.token, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production', // Only secure in production
+                sameSite: 'strict', // Recommended for security
+                maxAge: 3 * 24 * 60 * 60 * 1000 // 3 days in milliseconds
+            });
+            console.log(result.userId)
+            res.cookie("userId", result.userId, {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'production', // Only secure in production
                 sameSite: 'strict', // Recommended for security

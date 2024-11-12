@@ -17,8 +17,11 @@ const Header = () => {
     const toggleLoginModal = () => setIsLoginOpen(!isLoginOpen);
     const toggleRegisterModal = () => setIsRegisterOpen(!isRegisterOpen);
 
-    const handleLoginSuccess = (token) => {
+    const handleLoginSuccess = (token,userId) => {
+        console.log(userId);
         document.cookie = `authToken=${token}; path=/; max-age=3600`; // Lưu token vào cookie
+        document.cookie = `user_id=${userId}; path=/; max-age=3600`; // Lưu token vào cookie
+        console.log(document.cookie);
         setIsLoggedIn(true);
         setIsLoginOpen(false);
         navigate('/'); // Chuyển hướng đến trang chính

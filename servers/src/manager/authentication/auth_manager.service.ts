@@ -45,9 +45,13 @@ export class AuthManagerService {
             throw new NotFoundException('Invalid password')
         }
 
+        if (!manager.isVerified) {
+            throw new BadRequestException('Email not verified');
+        }
 
         return {
-            token: this.jwtService.sign({ email_user: email })
+            token: this.jwtService.sign({ email_user: email }),
+            managerId: manager.id
         }
     }
 
@@ -57,7 +61,7 @@ export class AuthManagerService {
             where: { email: registerDto.email }
         })
         if (manager) {
-            return "User already exists";
+            throw new BadRequestException('User already exists');
         }
         if (registerDto.password !== registerDto.retype_password) {
             throw new BadRequestException('Password does not match');

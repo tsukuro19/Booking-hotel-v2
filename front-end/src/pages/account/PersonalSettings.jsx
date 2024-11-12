@@ -1,106 +1,138 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaRegUserCircle, FaLock, FaCreditCard, FaRegEye, FaRegBell, FaUsers } from 'react-icons/fa';
 import { MdOutlinePrivacyTip } from "react-icons/md";
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
+import { getProfileById, updateProfileById } from '../../services/apiService';
+import Cookies from 'js-cookie';
+import { toast } from 'react-toastify';
 
 const PersonalSettings = () => {
+    const [username, setUsername] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [firstName, setFirstName] = useState("");
+    const [phoneNumber, setPhoneNumber] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");  // State to store error messages
+    const userId = Cookies.get("user_id");
+
+    useEffect(() => {
+        const fetchCustomerInfo = async () => {
+            try {
+                if (userId) {
+                    const customerInfo = await getProfileById(userId);
+                    setUsername(customerInfo.data.username);
+                    setLastName(customerInfo.data.last_name);
+                    setFirstName(customerInfo.data.first_name);
+                    setPhoneNumber(customerInfo.data.phone_number);
+                } else {
+                    console.error("User ID not found in cookies.");
+                }
+            } catch (error) {
+                console.error("Error fetching customer info:", error);
+            }
+        };
+
+        fetchCustomerInfo();
+    }, []);
+
+    const handleUpdate = async () => {
+        console.log("Update button clicked!");  // Add this log to check if it's triggered
+        if (!username || !lastName || !firstName || !phoneNumber) {
+            setErrorMessage("Vui lòng nhập đầy đủ thông tin.");
+            return;  // Prevent further action if any required field is empty
+        }
+
+        // Check phone number length
+        if (phoneNumber.length <= 10 || phoneNumber.length > 12) {
+            setErrorMessage("Số điện thoại phải có từ 10 đến 12 ký tự. Vui lòng nhập lại.");
+            return;  // Prevent further action if phone number is invalid
+        } else {
+            setErrorMessage("");  // Clear error message if phone number is valid
+        }
+
+        const updatedData = {
+            username:username,
+            last_name: lastName,
+            first_name: firstName,
+            phone_number: phoneNumber
+        }; 
+
+        try {
+            const response = await updateProfileById(userId, updatedData);
+            console.log("Response:", response);
+            if (response.status==200) {
+                toast.success("Cập nhật thành công!");
+            } else {
+                toast.error("Cập nhật thất bại!");
+            }
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    };
+
+
     return (
         <>
             <Header />
             <div className="flex justify-center p-6 mt-24">
-                <div className="w-1/5 border border-gray-300 rounded-md">
-                    <ul className="space-y-2">
-                        <li className="flex items-center py-2 px-4">
-                            <FaRegUserCircle className="text-xl mr-2" />
-                            <a href="/account/personal" className="text-blue-500">Thông tin cá nhân</a>
-                        </li>
-                        <div className="border-t border-gray-300" />
-                        <li className="flex items-center py-2 px-4">
-                            <FaRegEye className="text-xl mr-2" />
-                            <a href="/account/preferences" className="text-blue-500">Cài đặt chung</a>
-                        </li>
-                        <div className="border-t border-gray-300" />
-                        <li className="flex items-center py-2 px-4">
-                            <FaLock className="text-xl mr-2" />
-                            <a href="/account/security" className="text-blue-500">Cài đặt bảo mật</a>
-                        </li>
-                        <div className="border-t border-gray-300" />
-                        <li className="flex items-center py-2 px-4">
-                            <FaCreditCard className="text-xl mr-2" />
-                            <a href="/account/payment" className="text-blue-500">Phương thức thanh toán</a>
-                        </li>
-                        <div className="border-t border-gray-300" />
-                        <li className="flex items-center py-2 px-4">
-                            <MdOutlinePrivacyTip className="text-xl mr-2" />
-                            <a href="#" className="text-blue-500">Cài đặt quyền riêng tư</a>
-                        </li>
-                        <div className="border-t border-gray-300" />
-                        <li className="flex items-center py-2 px-4">
-                            <FaRegBell className="text-xl mr-2" />
-                            <a href="#" className="text-blue-500">Cài đặt email</a>
-                        </li>
-                        <div className="border-t border-gray-300" />
-                        <li className="flex items-center py-2 px-4">
-                            <FaUsers className="text-xl mr-2" />
-                            <a href="#" className="text-blue-500">Người đi cùng</a>
-                        </li>
-                    </ul>
-                </div>
-                {/* Chưa điền thì màu chữ nhạt 
-            Điền rồi thì màu chữ đậm */}
                 <div className="flex-1 rounded-lg p-4 ml-10 max-w-2xl">
                     <h2 className="text-2xl font-bold mb-2">Thông tin cá nhân</h2>
-                    <h4 className="mb-3">Cập nhật thông tin của bạn và tìm hiểu các thông tin này được sử dụng ra sao.</h4>
                     <div className="border-t border-gray-300 mb-4" />
+
+                    {/* Username */}
                     <div className="mb-4">
-                        <p className="font-semibold">Tên người dùng:</p>
-                        <div className="flex items-center justify-between">
-                            <p></p>
-                            <button className="text-blue-600">Chỉnh sửa</button>
-                        </div>
-                    </div>
-                    <div className="border-t border-gray-300 mb-4" />
-                    <div className="mb-4">
-                        <p className="font-semibold">Họ:</p>
-                        <div className="flex items-center justify-between">
-                            <p>Điền họ vào đây</p>
-                            <button className="text-blue-600">Chỉnh sửa</button>
-                        </div>
-                    </div>
-                    <div className="border-t border-gray-300 mb-4" />
-                    <div className="mb-4">
-                        <p className="font-semibold">Tên:</p>
-                        <div className="flex items-center justify-between">
-                            <p>Điền tên vào đây</p>
-                            <button className="text-blue-600">Chỉnh sửa</button>
-                        </div>
-                    </div>
-                    <div className="border-t border-gray-300 mb-4" />
-                    <div className="mb-4">
-                        <p className="font-semibold">Địa chỉ email:</p>
-                        <div className="flex items-center justify-between">
-                            <p>ductuanht2706@gmail.com <span className="text-green-600">(Xác thực)</span></p>
-                            <button className="text-blue-600">Chỉnh sửa</button>
-                        </div>
-                    </div>
-                    <div className="border-t border-gray-300 mb-4" />
-                    <div className="mb-4">
-                        <p className="font-semibold">Số điện thoại:</p>
-                        <div className="flex items-center justify-between">
-                            <p>Thêm số điện thoại của bạn</p>
-                            <button className="text-blue-600">Chỉnh sửa</button>
-                        </div>
-                    </div>
-                    <div className="border-t border-gray-300 mb-4" />
-                    <div className="mb-4">
-                        <p className="font-semibold">Mật khẩu:</p>
-                        <div className="flex items-center justify-between">
-                            <p>Thay đổi mật khẩu</p>
-                            <button className="text-blue-600">Chỉnh sửa</button>
-                        </div>
+                        <label className="font-semibold">Tên người dùng:</label>
+                        <input
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            className="border rounded-md w-full p-2"
+                            placeholder='Nhập username'
+                        />
                     </div>
 
+                    {/* Last Name */}
+                    <div className="mb-4">
+                        <label className="font-semibold">Họ:</label>
+                        <input
+                            value={lastName}
+                            onChange={(e) => setLastName(e.target.value)}
+                            className="border rounded-md w-full p-2"
+                            placeholder='Nhập họ'
+                        />
+                    </div>
+
+                    {/* First Name */}
+                    <div className="mb-4">
+                        <label className="font-semibold">Tên:</label>
+                        <input
+                            value={firstName}
+                            onChange={(e) => setFirstName(e.target.value)}
+                            className="border rounded-md w-full p-2"
+                            placeholder='Nhập tên'
+                        />
+                    </div>
+
+                    {/* Phone Number */}
+                    <div className="mb-4">
+                        <label className="font-semibold">Số điện thoại:</label>
+                        <input
+                            value={phoneNumber}
+                            onChange={(e) => setPhoneNumber(e.target.value)}
+                            className="border rounded-md w-full p-2"
+                            placeholder='Nhập số điện thoại'
+                        />
+                    </div>
+
+                    {/* Error Message */}
+                    {errorMessage && <div className="text-red-500 text-sm">{errorMessage}</div>}
+
+                    {/* Update Button */}
+                    <button
+                        onClick={handleUpdate}
+                        className="bg-blue-500 text-white font-semibold py-2 px-4 rounded-md w-full mt-4"
+                    >
+                        Update
+                    </button>
                 </div>
             </div>
             <Footer />

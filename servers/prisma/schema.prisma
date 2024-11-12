@@ -8,6 +8,7 @@ generator client {
   provider = "prisma-client-js"
 }
 
+
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
@@ -25,6 +26,7 @@ model Customer{
   blogs Blog[] @relation("CustomerBlogs")
   token Token? @relation(fields: [tokenId],references: [id])
   tokenId Int? @unique
+  reviews Review[] @relation("CustomerReviews") // Quan hệ với Review
 }
 
 model Token{
@@ -56,6 +58,7 @@ model Manager{
   isVerified Boolean
   phone_number String
   tokenHotel TokenHotel? @relation(fields: [tokenId],references: [id])
+  hotel Hotel[] @relation("ManagersHotels")
   tokenId Int? @unique
 }
 
@@ -69,3 +72,36 @@ model TokenHotel{
 }
 
 
+model Hotel{
+  id Int @id @default(autoincrement())
+  name_hotel String @unique
+  city String
+  country String
+  address String
+  phone_number String
+  room_quantity Int
+  image Images[] @relation("HotelImages")
+  manager Manager @relation("ManagersHotels",fields: [managerId],references: [id])
+  managerId Int
+  reviews Review[]  @relation("HotelReviews") // Quan hệ với Review
+}
+
+
+model Images{
+  id Int @id @default(autoincrement())
+  imageUrl String
+  hotel Hotel @relation("HotelImages",fields: [hotelId],references: [id])
+  hotelId Int
+}
+
+model Review {
+  id          Int      @id @default(autoincrement())
+  content     String
+  rating      Int      // Đánh giá, ví dụ: từ 1 đến 5
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  customerId  Int
+  hotelId     Int
+  customer    Customer @relation("CustomerReviews", fields: [customerId], references: [id])
+  hotel       Hotel    @relation("HotelReviews", fields: [hotelId], references: [id])
+}

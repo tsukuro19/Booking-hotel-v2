@@ -1,10 +1,18 @@
 import React, { useState } from 'react';
-import { Sidebar, Menu, MenuItem } from 'react-pro-sidebar';
-import { FiHome, FiUsers, FiMenu, FiBook, FiKey, FiThumbsUp, FiMessageCircle, FiSettings } from 'react-icons/fi';
-import { Link } from 'react-router-dom';
+import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
+import { FiHome, FiUsers, FiMenu, FiBook, FiKey, FiThumbsUp, FiMessageCircle, FiSettings, FiLogOut, FiPackage } from 'react-icons/fi';
+import { Link, useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 const ManagerHotel = () => {
     const [collapsed, setCollapsed] = useState(false);
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        Cookies.remove('authTokenManager'); // Remove token cookie
+        Cookies.remove('managerId'); // Remove token cookie
+        navigate('/login'); // Redirect to login page
+    };
 
     const menuItemStyles = {
         root: {
@@ -13,7 +21,7 @@ const ManagerHotel = () => {
         },
         button: {
             '&:hover': {
-                backgroundColor: '#7466E9',
+                backgroundColor: '#5a4ab0', // Darker shade on hover
             },
         },
         icon: {
@@ -24,13 +32,19 @@ const ManagerHotel = () => {
         },
     };
 
+    const accountMenuItemStyle = {
+        '&:hover': {
+            backgroundColor: '#5a4ab0', // Darker shade on hover for Account submenu items
+        },
+    };
+
     return (
         <Sidebar
             backgroundColor="#5744E3"
             collapsed={collapsed}
             width="260px"
             collapsedWidth="80px"
-            style={{ height: '100vh', border: 'none' }}
+            style={{ border: 'none' }}
         >
             <div className="flex items-center justify-between p-4 border-b border-[#7466E9]">
                 {!collapsed && (
@@ -60,11 +74,19 @@ const ManagerHotel = () => {
                 >
                     Guest
                 </MenuItem>
+                
                 <MenuItem
                     icon={<FiBook size={20} />}
                     component={<Link to="/room" />}
                 >
                     Room
+                </MenuItem>
+                {/* New ListHotel Menu with an Icon */}
+                <MenuItem
+                    icon={<FiPackage size={20} />} // Used FiPackage as a placeholder
+                    component={<Link to="/list-hotel" />}
+                >
+                    ListHotel
                 </MenuItem>
                 <MenuItem
                     icon={<FiKey size={20} />}
@@ -84,12 +106,13 @@ const ManagerHotel = () => {
                 >
                     Message
                 </MenuItem>
-                <MenuItem
-                    icon={<FiSettings size={20} />}
-                    component={<Link to="/account" />}
-                >
-                    Account
-                </MenuItem>
+                
+                {/* Account Menu with Logout Button */}
+                <SubMenu icon={<FiSettings size={20} />} label="Account" style={accountMenuItemStyle}>
+                    <MenuItem className='bg-[#5744E3]' icon={<FiLogOut size={20} />} onClick={handleLogout}>
+                        Logout
+                    </MenuItem>
+                </SubMenu>
             </Menu>
         </Sidebar>
     );

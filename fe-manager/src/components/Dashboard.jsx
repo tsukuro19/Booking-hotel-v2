@@ -46,13 +46,6 @@ const Dashboard = () => {
 
   return (
     <div className="p-6">
-      {/* Header */}
-      <div className="flex justify-between items-center mb-6">
-        <div className="text-gray-500">Friday, November 18,2022</div>
-        <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
-          Create booking
-        </button>
-      </div>
 
       {/* Overview Section */}
       <section className="mb-8">

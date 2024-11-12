@@ -51,7 +51,8 @@ export class AuthService {
 
 
         return {
-            token: this.jwtService.sign({ email_user: email })
+            token: this.jwtService.sign({ email_user: email }),
+            userId:customer.id
         }
     }
 
@@ -122,7 +123,8 @@ export class AuthService {
             })
             return {
                 token: this.jwtService.sign({ email_user: email }),
-                tokenEmail: emailToken
+                tokenEmail: emailToken,
+                userId:customer.id
             };
         }
 
