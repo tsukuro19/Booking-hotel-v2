@@ -51,16 +51,6 @@ const DropdownMenu = () => {
             {/* Menu content */}
             {isOpen && (
                 <div className="absolute right-0 mt-2 w-64 bg-white border border-gray-200 rounded-md shadow-lg">
-                    {/* Profile Section */}
-                    <div className="px-4 py-2 flex items-center">
-                        {/* User Image */}
-                        <img
-                            src="https://via.placeholder.com/40" // Thay đường dẫn bằng ảnh thật của user
-                            alt="User"
-                            className="w-10 h-10 rounded-full mr-3"
-                        />
-                        <h2 className="font-semibold text-gray-900">Name User</h2>
-                    </div>
 
                     <button
                         onClick={() => handleNavigation('/account')}
@@ -69,38 +59,6 @@ const DropdownMenu = () => {
                         <FaKey className="mr-2" /> Account
                     </button>
 
-                    <button
-                        onClick={() => handleNavigation('/host-home')}
-                        className="block w-full px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 flex items-center"
-                    >
-                        <FaHome className="mr-2" /> Tin nhắn
-                    </button>
-
-                    <button
-                        onClick={() => handleNavigation('/host-home')}
-                        className="block w-full px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 flex items-center"
-                    >
-                        <FaHome className="mr-2" /> Thông báo
-                    </button>
-                    <button
-                        onClick={() => handleNavigation('/host-experience')}
-                        className="block w-full px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 flex items-center"
-                    >
-                        <FaHome className="mr-2" /> Danh sách yêu thích
-                    </button>
-
-                    <button
-                        onClick={() => handleNavigation('/get-help')}
-                        className="block w-full px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 flex items-center"
-                    >
-                        <FaQuestionCircle className="mr-2" /> Chuyến đi
-                    </button>
-                    <button
-                        onClick={() => handleNavigation('/contact-support')}
-                        className="block w-full px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 flex items-center"
-                    >
-                        <FaHeadset className="mr-2" /> Contact Support
-                    </button>
 
                     {/* Log Out Section (no icon here) */}
                     <button

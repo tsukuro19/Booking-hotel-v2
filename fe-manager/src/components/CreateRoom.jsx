@@ -1,192 +1,117 @@
-import React, { useState } from 'react';
-import { FiX } from 'react-icons/fi';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { getRoomClassByHotelId, getFloorByHotelId, createRoom } from "../services/apiServices"; // Update with actual service functions
 
-const CreateRoom = ({ isOpen, onClose, onSubmit }) => {
-  const [newRoom, setNewRoom] = useState({
-    roomNumber: '',
-    bedType: 'Single bed',
-    roomFloor: '',
-    facility: [],
-    status: 'Available'
-  });
+const CreateRoom = () => {
+    const { hotelId } = useParams(); // Get hotelId from URL params
+    const navigate = useNavigate(); // Use navigate for redirecting after creating
 
-  const facilityOptions = [
-    'AC',
-    'Shower',
-    'Double bed',
-    'Single bed',
-    'Towel',
-    'Bathtub',
-    'TV',
-    'WiFi',
-    'Mini bar'
-  ];
+    // State variables to hold form input values
+    const [roomClassId, setRoomClassId] = useState('');
+    const [floorId, setFloorId] = useState('');
+    const [roomNumber, setRoomNumber] = useState('');
+    const [roomStatus, setRoomStatus] = useState('');
+    const [numBeds, setNumBeds] = useState('');
+    const [totalPriceRoomBeds, setTotalPriceRoomBeds] = useState('');
+    const [roomClasses, setRoomClasses] = useState([]); // For room class dropdown
+    const [floors, setFloors] = useState([]); // For floor dropdown
 
-  const bedTypes = [
-    'Single bed',
-    'Double bed',
-    'Triple bed',
-    'VIP Suite'
-  ];
+    // Fetch room classes and floors when the component mounts
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const roomClassesData = await getRoomClassByHotelId(hotelId); // Fetch room classes from API
+                const floorsData = await getFloorByHotelId(hotelId); // Fetch floors from API
+                setRoomClasses(roomClassesData.data);
+                setFloors(floorsData.data);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        }
+        fetchData();
+    }, [hotelId]);
 
-  const statusOptions = [
-    'Available',
-    'Booked',
-    'Reserved',
-    'Waitlist',
-    'Blocked',
-    'Dirty',
-    'Clean',
-    'Inspected'
-  ];
+    // Handle form submission
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const data = {
+                roomClassId:parseInt(roomClassId),
+                floorId:parseInt(floorId),
+                roomNumber:roomNumber,
+                hotelId:parseInt(hotelId)
+            };
+            await createRoom(data); // Call the create API
+            navigate(`/detail-room/${hotelId}`); // Redirect to the room list
+        } catch (error) {
+            console.error('Error creating room:', error);
+        }
+    };
 
-  const handleFacilityChange = (facility) => {
-    if (newRoom.facility.includes(facility)) {
-      setNewRoom({
-        ...newRoom,
-        facility: newRoom.facility.filter(f => f !== facility)
-      });
-    } else {
-      setNewRoom({
-        ...newRoom,
-        facility: [...newRoom.facility, facility]
-      });
-    }
-  };
+    return (
+        <div className="container mx-auto px-4 py-6">
+            <h1 className="text-3xl font-semibold text-center text-gray-700 mb-6">Create Room</h1>
+            <form onSubmit={handleSubmit} className="max-w-3xl mx-auto bg-white p-6 shadow-md rounded-md">
+                {/* Room Class Dropdown */}
+                <div className="mb-4">
+                    <label htmlFor="roomClassId" className="block text-sm font-medium text-gray-700">Room Class</label>
+                    <select
+                        id="roomClassId"
+                        value={roomClassId}
+                        onChange={(e) => setRoomClassId(e.target.value)}
+                        required
+                        className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+                    >
+                        <option value="">Select Room Class</option>
+                        {roomClasses.map((roomClass) => (
+                            <option key={roomClass.id} value={roomClass.id}>
+                                {roomClass.className}
+                            </option>
+                        ))}
+                    </select>
+                </div>
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onSubmit(newRoom);
-    // Reset form
-    setNewRoom({
-      roomNumber: '',
-      bedType: 'Single bed',
-      roomFloor: '',
-      facility: [],
-      status: 'Available'
-    });
-  };
+                {/* Floor Dropdown */}
+                <div className="mb-4">
+                    <label htmlFor="floorId" className="block text-sm font-medium text-gray-700">Floor</label>
+                    <select
+                        id="floorId"
+                        value={floorId}
+                        onChange={(e) => setFloorId(e.target.value)}
+                        required
+                        className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+                    >
+                        <option value="">Select Floor</option>
+                        {floors.map((floor) => (
+                            <option key={floor.id} value={floor.id}>
+                                {floor.floorNumber}
+                            </option>
+                        ))}
+                    </select>
+                </div>
 
-  if (!isOpen) return null;
+                {/* Room Number Input */}
+                <div className="mb-4">
+                    <label htmlFor="roomNumber" className="block text-sm font-medium text-gray-700">Room Number</label>
+                    <input
+                        id="roomNumber"
+                        type="text"
+                        value={roomNumber}
+                        onChange={(e) => setRoomNumber(e.target.value)}
+                        required
+                        className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+                    />
+                </div>
 
-  return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg p-6 w-full max-w-2xl">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-xl font-semibold">Add New Room</h2>
-          <button 
-            onClick={onClose}
-            className="text-gray-500 hover:text-gray-700"
-          >
-            <FiX size={24} />
-          </button>
+                {/* Submit Button */}
+                <div className="flex justify-center">
+                    <button type="submit" className="px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
+                        Create Room
+                    </button>
+                </div>
+            </form>
         </div>
-
-        <form onSubmit={handleSubmit}>
-          <div className="grid grid-cols-2 gap-6">
-            {/* Room Number */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Room Number
-              </label>
-              <input
-                type="text"
-                required
-                value={newRoom.roomNumber}
-                onChange={(e) => setNewRoom({...newRoom, roomNumber: e.target.value})}
-                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Enter room number"
-              />
-            </div>
-
-            {/* Room Floor */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Floor
-              </label>
-              <input
-                type="text"
-                required
-                value={newRoom.roomFloor}
-                onChange={(e) => setNewRoom({...newRoom, roomFloor: e.target.value})}
-                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Enter floor number"
-              />
-            </div>
-
-            {/* Bed Type */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Bed Type
-              </label>
-              <select
-                value={newRoom.bedType}
-                onChange={(e) => setNewRoom({...newRoom, bedType: e.target.value})}
-                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                {bedTypes.map((type) => (
-                  <option key={type} value={type}>{type}</option>
-                ))}
-              </select>
-            </div>
-
-            {/* Status */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Status
-              </label>
-              <select
-                value={newRoom.status}
-                onChange={(e) => setNewRoom({...newRoom, status: e.target.value})}
-                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                {statusOptions.map((status) => (
-                  <option key={status} value={status}>{status}</option>
-                ))}
-              </select>
-            </div>
-          </div>
-
-          {/* Facilities */}
-          <div className="mt-6">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Facilities
-            </label>
-            <div className="grid grid-cols-3 gap-3">
-              {facilityOptions.map((facility) => (
-                <label key={facility} className="flex items-center space-x-2">
-                  <input
-                    type="checkbox"
-                    checked={newRoom.facility.includes(facility)}
-                    onChange={() => handleFacilityChange(facility)}
-                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                  />
-                  <span className="text-sm text-gray-700">{facility}</span>
-                </label>
-              ))}
-            </div>
-          </div>
-
-          {/* Action Buttons */}
-          <div className="mt-6 flex justify-end space-x-3">
-            <button
-              type="button"
-              onClick={onClose}
-              className="px-4 py-2 border rounded-lg text-gray-700 hover:bg-gray-50"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-            >
-              Add Room
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default CreateRoom;

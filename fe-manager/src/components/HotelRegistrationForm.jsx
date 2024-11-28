@@ -1,42 +1,85 @@
 import React, { useState } from 'react';
+import { createHotel } from '../services/apiServices';
+import Cookies from 'js-cookie';
 
 const HotelRegistrationForm = () => {
   const [formData, setFormData] = useState({
-    hotelName: '',
+    name_hotel: '',
     address: '',
     city: '',
     country: '',
-    phone: '',
-    rooms: '',
-    images: [],
+    phone_number: '',
+    room_quantity: '',
+    description:'',
+    imageUrls: [],
   });
+
+  // Get managerId from cookies
+  const managerId = Cookies.get('managerId');
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
-
+  console.log(formData.imageUrls);
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
+    console.log(files);
+    const readers = files.map((file) => {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    });
+  
+    Promise.all(readers)
+      .then((urls) => {
+        setFormData((prevFormData) => ({
+          ...prevFormData,
+          imageUrls: urls,
+        }));
+      })
+      .catch((error) => console.error('Error loading images:', error));
+  };
 
-    // If the number of images exceeds 6, reset the images and alert the user
-    if (files.length + formData.images.length > 6) {
-      setFormData({ ...formData, images: [] });
-      alert('You can upload a maximum of 6 images. All images have been cleared.');
-    } else {
-      setFormData({ ...formData, images: [...formData.images, ...files] });
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // Convert room_quantity to an integer before submitting
+    const updatedFormData = {
+      ...formData,
+      room_quantity: parseInt(formData.room_quantity, 10), // Convert room_quantity to integer
+    };
+
+    const formDataToSend = new FormData();
+
+    for (const key in updatedFormData) {
+      if (key !== 'imageUrls' && updatedFormData[key]) {
+        formDataToSend.append(key, updatedFormData[key]);
+      }
+    }
+
+    updatedFormData.imageUrls.forEach((image) => {
+      formDataToSend.append('imageUrls', image);
+    });
+
+    // Logic to handle form submission, e.g., sending data to the backend
+    try {
+      console.log(managerId);
+      const response = await createHotel({ ...updatedFormData, managerId });
+      if (response.status === 201) {
+        window.location.href = '/list-hotel'; // Redirect to the hotel list page
+      }
+    } catch (error) {
+      console.error('Error creating hotel:', error);
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Logic to handle form submission, e.g., sending data to the backend
-    console.log('Form data submitted:', formData);
-  };
-
   const handleRemoveImage = (index) => {
-    const newImages = formData.images.filter((_, i) => i !== index);
-    setFormData({ ...formData, images: newImages });
+    const newImages = formData.imageUrls.filter((_, i) => i !== index);
+    setFormData({ ...formData, imageUrls: newImages });
   };
 
   return (
@@ -53,8 +96,8 @@ const HotelRegistrationForm = () => {
             </label>
             <input
               type="text"
-              name="hotelName"
-              value={formData.hotelName}
+              name="name_hotel"
+              value={formData.name_hotel}
               onChange={handleInputChange}
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
               placeholder="Enter hotel name"
@@ -117,8 +160,8 @@ const HotelRegistrationForm = () => {
             </label>
             <input
               type="tel"
-              name="phone"
-              value={formData.phone}
+              name="phone_number"
+              value={formData.phone_number}
               onChange={handleInputChange}
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
               placeholder="Enter phone number"
@@ -133,14 +176,31 @@ const HotelRegistrationForm = () => {
             </label>
             <input
               type="number"
-              name="rooms"
-              value={formData.rooms}
+              name="room_quantity"
+              value={formData.room_quantity}
               onChange={handleInputChange}
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
               placeholder="Enter number of rooms"
               required
             />
           </div>
+
+          {/* Desscription */}
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Enter Description
+            </label>
+            <input
+              type="text"
+              name="description"
+              value={formData.description}
+              onChange={handleInputChange}
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+              placeholder="Enter Description"
+              required
+            />
+          </div>
+
 
           {/* Image Upload */}
           <div className="mb-6">
@@ -149,30 +209,12 @@ const HotelRegistrationForm = () => {
             </label>
             <input
               type="file"
-              name="images"
+              name="imageUrls"
               accept="image/*"
               onChange={handleImageChange}
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
               multiple
             />
-            <div className="mt-4 grid grid-cols-3 gap-4">
-              {formData.images.map((image, index) => (
-                <div key={index} className="relative">
-                  <img
-                    src={URL.createObjectURL(image)}
-                    alt={`Hotel Image ${index + 1}`}
-                    className="w-full h-32 object-cover rounded-lg"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => handleRemoveImage(index)}
-                    className="absolute top-2 right-2 text-white bg-red-500 hover:bg-red-700 p-1 rounded-full"
-                  >
-                    X
-                  </button>
-                </div>
-              ))}
-            </div>
           </div>
 
           {/* Submit Button */}

@@ -109,16 +109,17 @@ export class CustomerService {
         })
     }
 
-    async updateCustomerById(customerId:number,data:any):Promise<any>{
-        const customer=this.prisma.customer.findUnique({
+    async updateCustomerById(customerId:number,dataString:any):Promise<any>{
+        const customer=await this.prisma.customer.findUnique({
             where:{
                 id:customerId
             }
         });
+        const data=JSON.parse(dataString);
         if(!customer){
             throw new NotFoundException('Customer not found');
         }
-        return this.prisma.customer.update({
+        const customerUpdate= await this.prisma.customer.update({
             where:{
                 id:customerId
             },
@@ -129,5 +130,6 @@ export class CustomerService {
                 username:data.username
             }
         })
+        return customerUpdate;
     }
 }

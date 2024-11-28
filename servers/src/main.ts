@@ -9,6 +9,7 @@ import * as dotenv from 'dotenv';
 import { ValidationPipe } from '@nestjs/common';
 import * as session from 'express-session';
 import * as passport from 'passport';
+import * as bodyParser from 'body-parser';
 
 dotenv.config();
 
@@ -42,6 +43,9 @@ async function bootstrap() {
     .build();
 
   appServer.use(cookieParser());
+   // Increase the body size limit
+   appServer.use(bodyParser.json({ limit: '50mb' }));
+   appServer.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
   const document = SwaggerModule.createDocument(appServer, config);
   SwaggerModule.setup('api', appServer, document);

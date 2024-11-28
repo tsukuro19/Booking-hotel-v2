@@ -1,19 +1,23 @@
-//useState: là 1 hook dùng để khai báo trạng thái trong component
-import React, { useState } from 'react';
+import React from 'react';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
-import Search from '../pages/Search'
+import HotelListPage from './HotelListOnPage'; // Import HotelList instead of Search
+import SearchBar from '../components/SearchBar';
 
 const HotelPageList = () => {
     return (
         <>
             <Header />
+            {/* Adding margin-top to ensure SearchBar doesn't overlap the header */}
+            <div className="pt-32">
+                <SearchBar />
+            </div>
             <div className="py-32">
-                <Search />
+                <HotelListPage /> {/* Using HotelList component here */}
             </div>
             <Footer />
         </>
     );
-}
+};
 
 export default HotelPageList;

@@ -62,13 +62,6 @@ const ManagerHotel = () => {
 
             <Menu menuItemStyles={menuItemStyles}>
                 <MenuItem
-                    icon={<FiHome size={20} />}
-                    component={<Link to="/dashboard" />}
-                    className="mt-4"
-                >
-                    Dashboard
-                </MenuItem>
-                <MenuItem
                     icon={<FiUsers size={20} />}
                     component={<Link to="/guest" />}
                 >
@@ -86,13 +79,7 @@ const ManagerHotel = () => {
                     icon={<FiPackage size={20} />} // Used FiPackage as a placeholder
                     component={<Link to="/list-hotel" />}
                 >
-                    ListHotel
-                </MenuItem>
-                <MenuItem
-                    icon={<FiKey size={20} />}
-                    component={<Link to="/frontdesk" />}
-                >
-                    Front desk
+                    List Hotel
                 </MenuItem>
                 <MenuItem
                     icon={<FiThumbsUp size={20} />}
@@ -110,7 +97,7 @@ const ManagerHotel = () => {
                 {/* Account Menu with Logout Button */}
                 <SubMenu icon={<FiSettings size={20} />} label="Account" style={accountMenuItemStyle}>
                     <MenuItem className='bg-[#5744E3]' icon={<FiLogOut size={20} />} onClick={handleLogout}>
-                        Logout
+                        Log out
                     </MenuItem>
                 </SubMenu>
             </Menu>

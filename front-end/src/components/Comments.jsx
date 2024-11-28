@@ -1,51 +1,86 @@
-const Comments = ({ comments }) => {
-    return (
-        <div className="max-w-[82rem] mx-auto px-8">
-            <h3 className="text-lg font-semibold mb-4">User Reviews</h3>
-            <div className="flex space-x-4 overflow-x-auto"> {/* Sử dụng flex để hiển thị theo hàng ngang */}
-                {comments.map((comment, index) => (
-                    <div
-                        key={index}
-                        className="p-4 border border-gray-200 rounded-md bg-gray-50 min-w-[250px]" // Đảm bảo mỗi bình luận có độ rộng tối thiểu
-                    >
-                        <div className="flex items-start space-x-2 mb-2"> {/* Flex để sắp xếp avatar và thông tin bên cạnh */}
-                            <img
-                                src="https://via.placeholder.com/40" // Placeholder cho avatar
-                                alt="User Avatar"
-                                className="w-10 h-10 rounded-full"
-                            />
-                            <div>
-                                <span className="font-semibold">Anonymous User</span>
+import { useState } from 'react';
 
-                                <div className="flex items-center space-x-1 mb-2">
-                                    {[1, 2, 3, 4, 5].map((star) => (
-                                        <svg
-                                            key={star}
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            fill={comment.rating >= star ? "currentColor" : "none"}
-                                            viewBox="0 0 24 24"
-                                            stroke="currentColor"
-                                            className="w-4 h-4 text-yellow-400"
+const Comments = ({ comments, onUpdate, onDelete }) => {
+    const [editingCommentId, setEditingCommentId] = useState(null);
+    const [updatedContent, setUpdatedContent] = useState('');
+    const [updatedRating, setUpdatedRating] = useState(5); // default rating
+
+    const handleEditClick = (commentId, content) => {
+        setEditingCommentId(commentId); // Set the comment to be edited
+        setUpdatedContent(content); // Set the current content in the textarea
+    };
+
+    const handleUpdateClick = () => {
+        if (updatedContent.trim()) {
+            onUpdate(editingCommentId, { content: updatedContent, rating: Number(updatedRating) });
+            setEditingCommentId(null); // Reset editing state
+            setUpdatedContent(''); // Clear the textarea
+            setUpdatedRating(5); // Reset rating
+        }
+    };
+
+    return (
+        <div>
+            {comments.length > 0 ? (
+                comments.map((comment) => (
+                    <div key={comment.id} className="mb-4 p-4 border border-gray-200 rounded">
+                        <div className="flex justify-between">
+                            <h3 className="text-lg font-semibold">
+                                {comment.customer.last_name} {comment.customer.first_name}
+                            </h3>
+                            <div className="flex">
+                                {editingCommentId === comment.id ? (
+                                    <button onClick={handleUpdateClick} className="text-green-500">
+                                        Update
+                                    </button>
+                                ) : (
+                                    <>
+                                        <button
+                                            onClick={() => handleEditClick(comment.id, comment.content)}
+                                            className="text-blue-500"
                                         >
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth={2}
-                                                d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l2.072 6.373a1 1 0 00.95.69h6.682c.969 0 1.371 1.24.588 1.81l-5.417 3.928a1 1 0 00-.363 1.118l2.073 6.372c.3.922-.755 1.688-1.538 1.118l-5.417-3.928a1 1 0 00-1.175 0l-5.417 3.928c-.783.57-1.837-.196-1.538-1.118l2.073-6.372a1 1 0 00-.363-1.118L2.777 11.8c-.783-.57-.38-1.81.588-1.81h6.682a1 1 0 00.95-.69l2.072-6.373z"
-                                            />
-                                        </svg>
-                                    ))}
-                                </div>
+                                            Edit
+                                        </button>
+                                        <button
+                                            onClick={() => onDelete(comment.id)}
+                                            className="ml-2 text-red-500"
+                                        >
+                                            Delete
+                                        </button>
+                                    </>
+                                )}
                             </div>
                         </div>
-
-                        <p className="text-gray-700">{comment.review}</p>
-                        <p className="text-sm text-gray-500">{comment.date}</p>
+                        {editingCommentId === comment.id ? (
+                            <div className="mt-2">
+                                <textarea
+                                    value={updatedContent}
+                                    onChange={(e) => setUpdatedContent(e.target.value)}
+                                    className="w-full px-4 py-2 border border-gray-300 rounded"
+                                    placeholder="Update your comment..."
+                                />
+                                <select
+                                    value={updatedRating}
+                                    onChange={(e) => setUpdatedRating(e.target.value)}
+                                    className="w-full px-4 py-2 border border-gray-300 rounded mt-2"
+                                >
+                                    <option value="1">1 Star</option>
+                                    <option value="2">2 Stars</option>
+                                    <option value="3">3 Stars</option>
+                                    <option value="4">4 Stars</option>
+                                    <option value="5">5 Stars</option>
+                                </select>
+                            </div>
+                        ) : (
+                            <p className="mt-2">{comment.content}</p>
+                        )}
+                        <p className="mt-2 text-gray-500">Rating: {comment.rating} Stars</p>
                     </div>
-                ))}
-            </div>
+                ))
+            ) : (
+                <div>No reviews yet.</div>
+            )}
         </div>
     );
 };
-
 export default Comments;

@@ -15,11 +15,12 @@ export class CustomerClientService {
             last_name:customer.last_name,
             phone_number:customer.phone_number,
             username:customer.username,
+            email:customer.email,
         }
     }
 
     async updateCustomerClientById(customerId:number,data:any):Promise<any>{
-        const customer=await this.customerPrisma.updateCustomerById(Number(customerId),data);
+        const customer=await this.customerPrisma.updateCustomerById(Number(customerId),data.body);
         return {
             message:'Customer successfully updated'
         }

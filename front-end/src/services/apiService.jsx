@@ -44,3 +44,120 @@ export const updateProfileById=(userId,updatedData)=>{
     });
 }
 
+
+export const getListHotel=async ()=>{
+    const response=await axios.get(`${process.env.REACT_APP_BACK_END_URL}/manager/hotel`);
+    return response.data;
+}
+
+export const getListHotelWithFeature=async ()=>{
+    const response=await axios.get(`${process.env.REACT_APP_BACK_END_URL}/manager/hotel/feature`);
+    return response.data;
+}
+
+export const getHotelDetailFull=async (hotelId)=>{
+    const response=await axios.get(`${process.env.REACT_APP_BACK_END_URL}/manager/hotel/hotel-details/${hotelId}`);
+    return response;
+}
+
+
+export const getRoomClassBedTypeByHotelId=async (hotelId)=>{
+    try {
+        const response = await axios.get(`${process.env.REACT_APP_BACK_END_URL}/manager/room-class-bed-type/hotel/${hotelId}`);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching room class bed types:", error);
+    }
+}
+
+export const getRoomClassWithFeaturesByHotelId=async (hotelId) =>{
+    try {
+        const response = await axios.get(`${process.env.REACT_APP_BACK_END_URL}/manager/room-class-feature/${hotelId}`);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching room classes with features:", error);
+    }
+}
+
+export const getRoomClassByHotelId = async (hotelId) => {
+    try {
+        const response = await axios.get(`${process.env.REACT_APP_BACK_END_URL}/manager/room-class`, {
+            params: { hotelId },
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching rooms with floor details:", error);
+    }
+};
+
+export const getFeaturesByHotelId = async (hotelId) => {
+    try {
+        const response = await axios.get(`${process.env.REACT_APP_BACK_END_URL}/manager/feature`, {
+            params: { hotelId },
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching rooms with floor details:", error);
+    }
+};
+
+export const createPaymentIntent = async (totalPrice) => {
+    try {
+        const response = await axios.post(`${process.env.REACT_APP_BACK_END_URL}/stripe/create-payment-intent`, {
+            body:{
+                amount: totalPrice,
+            },
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching rooms with floor details:", error);
+    }
+};
+
+export const createBooking = async (bookingData) => {
+    try {
+        const response = await axios.post(`${process.env.REACT_APP_BACK_END_URL}/manager/booking`, bookingData);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching rooms with floor details:", error);
+    }
+};
+
+export const getListBookingByUserId=async (userId)=>{
+    try{
+        const response=await axios.get(`${process.env.REACT_APP_BACK_END_URL}/manager/booking/customer/${userId}`);
+        return response.data;
+    }catch(error){
+        console.error("Error fetching rooms with floor details:", error);
+    }
+}
+
+export const getListMessage = async (customerId) => {
+    const response = await axios.get(`${process.env.REACT_APP_BACK_END_URL}/manager/messages/list/managers/${customerId}`);
+    return response.data;
+  };
+
+  export const getContentMessage = async (managerId,customerId) => {
+    const response = await axios.get(`${process.env.REACT_APP_BACK_END_URL}/manager/messages/content/${managerId}/${customerId}`);
+    return response.data;
+  };
+
+  export const createReview = async (commentData) => {
+    const response = await axios.post(`${process.env.REACT_APP_BACK_END_URL}/manager/review`, commentData);
+    return response.data;
+  };
+
+  export const updateReview = async (reviewId,commentData) => {
+    const response = await axios.put(`${process.env.REACT_APP_BACK_END_URL}/manager/review/${reviewId}`, commentData);
+    return response.data;
+  };
+
+  export const deleteReview = async (reviewId) => {
+    const response = await axios.delete(`${process.env.REACT_APP_BACK_END_URL}/manager/review/${reviewId}`);
+    return response.data;
+  };
+
+  export const getReviewHotel = async (hotelId) => {
+    const response = await axios.get(`${process.env.REACT_APP_BACK_END_URL}/manager/review/hotel/${hotelId}`);
+    return response.data;
+  };
