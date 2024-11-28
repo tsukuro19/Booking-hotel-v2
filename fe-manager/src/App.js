@@ -16,6 +16,27 @@ import 'react-toastify/dist/ReactToastify.css';
 import { validateToken } from './services/apiServices';
 import HotelRegistrationForm from './components/HotelRegistrationForm';
 import HotelManagement from './components/ListHotel';
+import HotelUpdateForm from './components/UpdateHotel';
+import DetailRoom from './components/DetailRoom';
+import FeatureList from './components/Feature';
+import CreateFeatureForm from './components/CreateFeature';
+import UpdateFeatureForm from './components/EditFeature';
+import RoomClassList from './components/RoomClass';
+import CreateRoomClassForm from './components/CreateRoomClass';
+import UpdateRoomClassForm from './components/EditRoomClass';
+import BedTypeList from './components/BedType';
+import CreateBedTypeForm from './components/CreateBedType';
+import UpdateBedTypeForm from './components/EditBedType';
+import FloorList from './components/Floor';
+import CreateFloorForm from './components/CreateFloor';
+import UpdateFloorForm from './components/EditFloor';
+import RoomClassFeatureList from './components/RoomClassFeature';
+import CreateRoomClassFeatureForm from './components/CreateRoomCLassFeature';
+import ListRoomClassBedTypes from './components/RoomClassBedType';
+import CreateRoomClassBedType from './components/CreateRoomClassBedType';
+import CreateRoom from './components/CreateRoom';
+import UpdateRoomClassWithFeature from './components/EditRoomClassFeature';
+
 
 const AppWrapper = () => {
   const location = useLocation();
@@ -37,7 +58,27 @@ const AppWrapper = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/register-hotel" element={<HotelRegistrationForm />} />
           <Route path="/list-hotel" element={<HotelManagement />} />
-          <Route path="/" element={<Navigate to="/dashboard" />} />
+          <Route path="/" element={<Navigate to="/guest" />} />
+          <Route path="/edit-hotel/:name" element={<HotelUpdateForm />} />
+          <Route path="/detail-room/:hotelId" element={<DetailRoom />} />
+          <Route path="/detail-room/features/:hotelId" element={<FeatureList />} />
+          <Route path="/detail-room/room-classes/:hotelId" element={<RoomClassList/>} />
+          <Route path="/detail-room/bed-types/:hotelId" element={<BedTypeList/>} />
+          <Route path="/detail-room/floor/:hotelId" element={<FloorList/>} />
+          <Route path="/detail-room/room-classes-with-features/:hotelId" element={<RoomClassFeatureList/>} />
+          <Route path="/detail-room/room-classes-with-bed-types/:hotelId" element={<ListRoomClassBedTypes/>} />
+          <Route path="/detail-room/features/create-feature/:hotelId" element={<CreateFeatureForm />} />
+          <Route path="/detail-room/features/edit-room/:hotelId/:featureId" element={<UpdateFeatureForm />} />
+          <Route path="/detail-room/room-classes/create-room-class/:hotelId" element={<CreateRoomClassForm />} />
+          <Route path="/detail-room/room-classes/edit-room-class/:hotelId/:roomClassId/:roomClassName" element={<UpdateRoomClassForm />} />
+          <Route path="/detail-room/bed-types/create-bed-type/:hotelId" element={<CreateBedTypeForm />} />
+          <Route path="/detail-room/bed-types/edit-bed-type/:hotelId/:bedTypeId/:bedTypeName" element={<UpdateBedTypeForm />} />
+          <Route path="/detail-room/floor/create-floor/:hotelId" element={<CreateFloorForm/>} />
+          <Route path="/detail-room/floor/edit-floor/:hotelId/:floorId" element={<UpdateFloorForm/>} />
+          <Route path="/detail-room/room-classes-with-features/create-room-class-feature/:hotelId" element={<CreateRoomClassFeatureForm/>} />
+          <Route path="/detail-room/room-classes-with-features/create-room-class-feature/:hotelId" element={<CreateRoomClassFeatureForm/>} />
+          <Route path="/edit-room-class/:hotelId/:roomClassFeatureId" element={<UpdateRoomClassWithFeature/>} />
+          <Route path="/detail-room/create-room/:hotelId" element={<CreateRoom/>} />
         </Routes>
       </div>
       <ToastContainer />

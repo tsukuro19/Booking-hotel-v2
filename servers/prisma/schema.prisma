@@ -1,9 +1,6 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -14,90 +11,152 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Customer{
-  id Int @id @default(autoincrement())
-  first_name String? 
-  last_name String?
-  email String @unique
+// Customer Model
+model Customer {
+  id          Int       @id @default(autoincrement())
+  first_name  String? 
+  last_name   String?
+  email       String    @unique
   phone_number String
-  password String
-  username String
-  isVerified Boolean
-  blogs Blog[] @relation("CustomerBlogs")
-  token Token? @relation(fields: [tokenId],references: [id])
-  tokenId Int? @unique
-  reviews Review[] @relation("CustomerReviews") // Quan hệ với Review
+  password    String
+  username    String
+  isVerified  Boolean
+  blogs       Blog[]    @relation("CustomerBlogs")
+  token       Token?    @relation(fields: [tokenId], references: [id])
+  tokenId     Int?      @unique
+  reviews     Review[]  @relation("CustomerReviews")
+  messages     Message[] @relation("CustomerMessages")
+  bookings    Booking[] @relation("CustomerBookings")
 }
 
-model Token{
+model Booking{
   id Int @id @default(autoincrement())
-  email String @unique
-  token String @unique
-  createdAt DateTime @default(now())
-  customer Customer? 
-  customerId Int? @unique
-}
-
-model Blog{
-  id Int @id @default(autoincrement())
-  title String 
-  content String
-  createdAt DateTime @default(now())
-  updatedAt DateTime
+  checkIn DateTime
+  checkOut DateTime
+  numGuests Int
+  bookingStatus String
+  bookingType String
+  bookingAmount Float
   customerId Int
-  customer Customer @relation("CustomerBlogs",fields: [customerId],references: [id])
+  hotelId Int
+  customer Customer @relation("CustomerBookings", fields: [customerId], references: [id])
+  hotel Hotel @relation("HotelBookings", fields: [hotelId], references: [id])
+  bookingRooms BookingRoom[] @relation("BookingRooms")
+  bookingPayments PaymentStatus[] @relation("BookingPayments")
 }
 
-model Manager{
+model PaymentStatus{
   id Int @id @default(autoincrement())
-  first_name String
-  last_name String
-  username String
-  email String @unique
-  password String
-  isVerified Boolean
+  paymentStatus String
+  bookingId Int
+  booking Booking @relation("BookingPayments", fields: [bookingId], references: [id])
+}
+
+model BookingRoom{
+  id Int @id @default(autoincrement())
+  bookingId Int
+  roomId Int
+  booking Booking @relation("BookingRooms", fields: [bookingId], references: [id])
+  room Room @relation("RoomsBookings", fields: [roomId], references: [id])
+}
+
+// Token Model
+model Token {
+  id         Int       @id @default(autoincrement())
+  email      String    @unique
+  token      String    @unique
+  createdAt  DateTime  @default(now())
+  customer   Customer? 
+  customerId Int?      @unique
+}
+
+// Blog Model
+model Blog {
+  id          Int       @id @default(autoincrement())
+  title       String 
+  content     String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime
+  customerId  Int
+  customer    Customer  @relation("CustomerBlogs", fields: [customerId], references: [id])
+}
+
+// Manager Model
+model Manager {
+  id           Int        @id @default(autoincrement())
+  first_name   String
+  last_name    String
+  username     String
+  email        String     @unique
+  password     String
+  isVerified   Boolean
   phone_number String
-  tokenHotel TokenHotel? @relation(fields: [tokenId],references: [id])
-  hotel Hotel[] @relation("ManagersHotels")
-  tokenId Int? @unique
+  tokenHotel   TokenHotel? @relation(fields: [tokenId], references: [id])
+  hotel        Hotel[]    @relation("ManagersHotels")
+  tokenId      Int?       @unique
+  messages     Message[]   @relation("ManagerMessages")
 }
 
-model TokenHotel{
-  id Int @id @default(autoincrement())
-  email String @unique
-  token String @unique
-  createdAt DateTime @default(now())
-  manager Manager? 
-  managerId Int? @unique
+model Message {
+  id           Int      @id @default(autoincrement())
+  content      String
+  sentAt       DateTime @default(now())
+  read         Boolean  @default(false)
+  senderId     Int?      // ID of the user sending the message
+  receiverId   Int?     // ID of the user receiving the message
+  customerId   Int?
+  managerId    Int?
+  customer     Customer? @relation("CustomerMessages", fields: [customerId], references: [id])
+  manager      Manager?  @relation("ManagerMessages", fields: [managerId], references: [id])
 }
 
+// TokenHotel Model
+model TokenHotel {
+  id         Int       @id @default(autoincrement())
+  email      String    @unique
+  token      String    @unique
+  createdAt  DateTime  @default(now())
+  manager    Manager? 
+  managerId  Int?      @unique
+}
 
-model Hotel{
-  id Int @id @default(autoincrement())
-  name_hotel String @unique
-  city String
-  country String
-  address String
-  phone_number String
+// Hotel Model
+model Hotel {
+  id            Int          @id @default(autoincrement())
+  name_hotel    String       @unique
+  city          String
+  country       String
+  address       String
+  phone_number  String
   room_quantity Int
-  image Images[] @relation("HotelImages")
-  manager Manager @relation("ManagersHotels",fields: [managerId],references: [id])
-  managerId Int
-  reviews Review[]  @relation("HotelReviews") // Quan hệ với Review
+  description   String?
+  booking      Booking[]    @relation("HotelBookings")
+  image         Images[]     @relation("HotelImages")
+  manager       Manager      @relation("ManagersHotels", fields: [managerId], references: [id])
+  managerId     Int
+  reviews       Review[]     @relation("HotelReviews")
+
+  // New relations for RoomClass, Feature, BedType, and Floor
+  roomClasses   RoomClass[]  @relation("HotelRoomClasses")
+  features      Feature[]    @relation("HotelFeatures")
+  bedTypes      BedType[]    @relation("HotelBedTypes")
+  floors        Floor[]      @relation("HotelFloors")
+  rooms         Room[]       @relation("HotelRooms")
 }
 
-
-model Images{
-  id Int @id @default(autoincrement())
+// Images Model
+model Images {
+  id      Int     @id @default(autoincrement())
   imageUrl String
-  hotel Hotel @relation("HotelImages",fields: [hotelId],references: [id])
+  hotel   Hotel   @relation("HotelImages", fields: [hotelId], references: [id])
   hotelId Int
 }
 
+// Review Model
 model Review {
   id          Int      @id @default(autoincrement())
   content     String
-  rating      Int      // Đánh giá, ví dụ: từ 1 đến 5
+  rating      Int      // Rating, for example: from 1 to 5
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   customerId  Int
@@ -105,3 +164,90 @@ model Review {
   customer    Customer @relation("CustomerReviews", fields: [customerId], references: [id])
   hotel       Hotel    @relation("HotelReviews", fields: [hotelId], references: [id])
 }
+
+// Room Model
+model Room {
+  id              Int        @id @default(autoincrement())
+  roomNumber      String 
+  roomStatus      Boolean @default(true)
+  dayAvailableFrom DateTime? @default(now())
+  floorId         Int
+  roomClassId     Int
+  floor           Floor      @relation("FloorsRooms", fields: [floorId], references: [id])
+  roomClass       RoomClass  @relation("RoomsClasses", fields: [roomClassId], references: [id])
+  roomBookings    BookingRoom[] @relation("RoomsBookings")
+
+  // Relation to Hotel
+  hotelId        Int
+  hotel          Hotel      @relation("HotelRooms", fields: [hotelId], references: [id])
+}
+
+// Floor Model
+model Floor {
+  id             Int        @id @default(autoincrement())
+  floorNumber    String 
+  rooms          Room[]     @relation("FloorsRooms")
+
+  // Relation to Hotel
+  hotelId        Int
+  hotel          Hotel      @relation("HotelFloors", fields: [hotelId], references: [id])
+}
+
+// RoomClass Model
+model RoomClass {
+  id                Int                   @id @default(autoincrement())
+  className         String 
+  basePrice         Float
+  rooms             Room[]                @relation("RoomsClasses")
+  roomClassBedType  RoomClassBedType[]    @relation("RoomClassBedTypes")
+  roomClassFeature  RoomClassFeature[]    @relation("RoomClassFeatures")
+
+  // Relation to Hotel
+  hotelId           Int
+  hotel             Hotel                 @relation("HotelRoomClasses", fields: [hotelId], references: [id])
+}
+
+// BedType Model
+model BedType {
+  id               Int                  @id @default(autoincrement())
+  bedTypeName      String 
+  roomClassBedType RoomClassBedType[]   @relation("BedTypesRoomClass")
+
+  // Relation to Hotel
+  hotelId          Int
+  hotel            Hotel                @relation("HotelBedTypes", fields: [hotelId], references: [id])
+}
+
+// RoomClassBedType Model
+model RoomClassBedType {
+  id           Int        @id @default(autoincrement())
+  numBeds      Int
+  totalPriceRoomBeds Float
+  roomClassId  Int
+  bedTypeId    Int
+  roomClass    RoomClass  @relation("RoomClassBedTypes", fields: [roomClassId], references: [id])
+  bedType      BedType    @relation("BedTypesRoomClass", fields: [bedTypeId], references: [id])
+}
+
+// Feature Model
+model Feature {
+  id                 Int               @id @default(autoincrement())
+  featureName        String 
+  featureDescription String?
+  featurePrice       Float
+  featuresRoomClass  RoomClassFeature[] @relation("FeaturesRoomClasses")
+
+  // Relation to Hotel
+  hotelId            Int
+  hotel              Hotel             @relation("HotelFeatures", fields: [hotelId], references: [id])
+}
+
+
+model RoomClassFeature{
+  id Int @id @default(autoincrement())
+  roomClassId Int
+  featureId Int
+  roomClass RoomClass @relation("RoomClassFeatures", fields: [roomClassId], references: [id])
+  feature Feature @relation("FeaturesRoomClasses", fields: [featureId], references: [id])
+}
+

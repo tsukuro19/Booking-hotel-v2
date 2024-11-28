@@ -17,9 +17,6 @@ const Home = () => {
             <HotelList />
             {/* <HotelBooked /> */}
             <PopularDestinations />
-            <BannerPoster />
-            <AccommodationType />
-            <FavoriteDestinations />
             <Footer />
         </>
     );

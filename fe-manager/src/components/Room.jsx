@@ -1,241 +1,86 @@
-import React, { useState } from 'react';
-import { FiMoreVertical, FiFilter } from 'react-icons/fi';
-import CreateRoom from './CreateRoom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { FiEdit, FiTrash2, FiPlusCircle } from 'react-icons/fi';
+import axios from 'axios';
+import { deleteHotel, getHotels } from '../services/apiServices';
 
 const Room = () => {
-  const [showModalCreateRoom, setShowModalCreateRoom] = useState(false);
-  const [selectedFilter, setSelectedFilter] = useState('all');
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [hotels, setHotels] = useState([]);
+  const navigate = useNavigate();
 
-  const roomData = [
-    { 
-      id: '#001', 
-      bedType: 'Double bed', 
-      roomFloor: 'Floor - 1',
-      facility: 'AC, shower, Double bed, towel bathtub, TV',
-      status: 'Available' 
-    },
-    { 
-      id: '#002', 
-      bedType: 'Single bed', 
-      roomFloor: 'Floor - 2',
-      facility: 'AC, shower, Double bed, towel bathtub, TV',
-      status: 'Booked' 
-    },
-    { 
-      id: '#003', 
-      bedType: 'VIP', 
-      roomFloor: 'Floor - 1',
-      facility: 'AC, shower, Double bed, towel bathtub, TV',
-      status: 'Booked' 
-    },
-    { 
-      id: '#004', 
-      bedType: 'VIP', 
-      roomFloor: 'Floor - 1',
-      facility: 'AC, shower, Double bed, towel bathtub, TV',
-      status: 'Reserved' 
-    },
-    { 
-      id: '#005', 
-      bedType: 'Single bed', 
-      roomFloor: 'Floor - 1',
-      facility: 'AC, shower, Double bed, towel bathtub, TV',
-      status: 'Reserved' 
-    },
-    { 
-      id: '#006', 
-      bedType: 'Double bed', 
-      roomFloor: 'Floor - 2',
-      facility: 'AC, shower, Double bed, towel bathtub, TV',
-      status: 'Waitlist' 
-    },
-    { 
-      id: '#007', 
-      bedType: 'Double bed', 
-      roomFloor: 'Floor - 3',
-      facility: 'AC, shower, Double bed, towel bathtub, TV',
-      status: 'Reserved' 
-    },
-    { 
-      id: '#008', 
-      bedType: 'Single bed', 
-      roomFloor: 'Floor - 5',
-      facility: 'AC, shower, Double bed, towel bathtub, TV',
-      status: 'Blocked' 
-    },
-  ];
+  useEffect(() => {
+    const fetchHotels = async () => {
+      try {
+        const response = await getHotels();
+        setHotels(response);
+      } catch (error) {
+        console.error('Error fetching hotels', error);
+      }
+    };
 
-  const filterOptions = [
-    { value: 'all', label: 'All Rooms', count: 100 },
-    { value: 'available', label: 'Available', count: 20 },
-    { value: 'booked', label: 'Booked', count: 30 },
-    { value: 'reserved', label: 'Reserved', count: 15 },
-    { value: 'waitlist', label: 'Waitlist', count: 10 },
-    { value: 'blocked', label: 'Blocked', count: 5 },
-    { value: 'dirty', label: 'Dirty', count: 10 },
-    { value: 'clean', label: 'Clean', count: 8 },
-    { value: 'inspected', label: 'Inspected', count: 2 }
-  ];
+    fetchHotels();
+  }, []);
 
-  // Filter rooms based on selected filter
-  const filteredRooms = roomData.filter(room => {
-    if (selectedFilter === 'all') return true;
-    return room.status.toLowerCase() === selectedFilter.toLowerCase();
-  });
-
-  const getStatusColor = (status) => {
-    switch (status.toLowerCase()) {
-      case 'available':
-        return 'bg-blue-100 text-blue-600';
-      case 'booked':
-        return 'bg-red-100 text-red-600';
-      case 'reserved':
-        return 'bg-green-100 text-green-600';
-      case 'waitlist':
-        return 'bg-orange-100 text-orange-600';
-      case 'blocked':
-        return 'bg-yellow-100 text-yellow-600';
-      case 'dirty':
-        return 'bg-gray-100 text-gray-600';
-      case 'clean':
-        return 'bg-emerald-100 text-emerald-600';
-      case 'inspected':
-        return 'bg-purple-100 text-purple-600';
-      default:
-        return 'bg-gray-100 text-gray-600';
+  const handleDelete = async (id, name) => {
+    try {
+      await deleteHotel(name);
+      setHotels(hotels.filter(hotel => hotel.id !== id));
+    } catch (error) {
+      console.error('Error deleting hotel', error);
     }
   };
 
-  const handleCreateRoom = (newRoomData) => {
-    // Xử lý thêm phòng mới vào danh sách
-    console.log('New Room Data:', newRoomData);
-    // Thêm logic gọi API hoặc thêm vào state ở đây
-    setShowModalCreateRoom(false);
+  const handleEdit = (name) => {
+    navigate(`/edit-hotel/${name}`);
   };
 
   return (
-    <div className="p-6">
-      <div className="mb-6">
-        <h2 className="text-2xl font-semibold text-gray-800">Room</h2>
-      </div>
+    <div className="min-h-screen bg-gray-50 p-8">
+      <div className="container mx-auto">
+        <div className="flex items-center justify-between mb-8">
+          <h2 className="text-3xl font-bold text-gray-700">List Rooms</h2>
+        </div>
 
-      {/* Action Bar */}
-      <div className="flex justify-between items-center mb-6">
-        <button 
-          onClick={() => setSelectedFilter('all')}
-          className={`px-4 py-2 rounded-lg transition-colors ${
-            selectedFilter === 'all' 
-              ? 'bg-blue-600 text-white' 
-              : 'bg-white text-gray-700 border hover:bg-gray-50'
-          }`}
-        >
-          All Rooms (100)
-        </button>
-
-        <div className="flex items-center gap-4">
-          {/* Filter Dropdown */}
-          <div className="relative">
-            <button 
-              className="flex items-center gap-2 px-4 py-2 border rounded-lg hover:bg-gray-50"
-              onClick={() => setIsFilterOpen(!isFilterOpen)}
-            >
-              <FiFilter />
-              <span>Filter Status</span>
-            </button>
-            {isFilterOpen && (
-              <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg border overflow-hidden z-10">
-                {filterOptions.map((option) => (
-                  <div 
-                    key={option.value}
-                    className={`px-4 py-2 cursor-pointer flex justify-between items-center ${
-                      selectedFilter === option.value ? 'bg-blue-50' : 'hover:bg-gray-50'
-                    }`}
-                    onClick={() => {
-                      setSelectedFilter(option.value);
-                      setIsFilterOpen(false);
-                    }}
-                  >
-                    <span>{option.label}</span>
-                    <span className="text-sm text-gray-500">({option.count})</span>
+        <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+          {hotels.map((hotel) => (
+            <div key={hotel.id} className="flex border-b border-gray-200 p-4 hover:bg-gray-100 transition-colors">
+              <Link to={`/detail-room/${hotel.id}`} className="flex w-full">
+                {/* Hotel Image */}
+                <div className="flex-shrink-0">
+                  <img
+                    src={hotel.imageUrls[0]}
+                    alt={hotel.name}
+                    className="w-32 h-32 object-cover rounded-lg mr-4"
+                  />
+                </div>
+                {/* Hotel Details */}
+                <div className="flex flex-col justify-between w-full">
+                  <div>
+                    <h3 className="text-xl font-semibold text-gray-700">{hotel.name_hotel}</h3>
+                    <p className="text-gray-500">{hotel.address}</p>
+                    <p className="text-gray-500">Phone: {hotel.phone_number}</p>
                   </div>
-                ))}
-              </div>
-            )}
-          </div>
-
-          <button 
-            onClick={() => setShowModalCreateRoom(true)} 
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
-          >
-            Add room
-          </button>
+                  {/* Action Buttons */}
+                  <div className="flex space-x-4 mt-4">
+                    <button
+                      onClick={() => handleEdit(hotel.name_hotel)}
+                      className="text-blue-500 hover:text-blue-700 transition-colors"
+                    >
+                      <FiEdit size={20} />
+                    </button>
+                    <button
+                      onClick={() => handleDelete(hotel.id, hotel.name_hotel)}
+                      className="text-red-500 hover:text-red-700 transition-colors"
+                    >
+                      <FiTrash2 size={20} />
+                    </button>
+                  </div>
+                </div>
+              </Link>
+            </div>
+          ))}
         </div>
       </div>
-
-      {/* Table */}
-      <div className="bg-white rounded-lg shadow overflow-hidden">
-        <table className="min-w-full">
-          <thead>
-            <tr className="bg-gray-50 border-b">
-              <th className="px-6 py-3 text-left text-sm font-medium text-gray-500">Room number</th>
-              <th className="px-6 py-3 text-left text-sm font-medium text-gray-500">Bed type</th>
-              <th className="px-6 py-3 text-left text-sm font-medium text-gray-500">Room floor</th>
-              <th className="px-6 py-3 text-left text-sm font-medium text-gray-500">Room facility</th>
-              <th className="px-6 py-3 text-left text-sm font-medium text-gray-500">Status</th>
-              <th className="px-6 py-3 text-left text-sm font-medium text-gray-500"></th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-200">
-            {filteredRooms.map((room) => (
-              <tr key={room.id} className="hover:bg-gray-50">
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{room.id}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{room.bedType}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{room.roomFloor}</td>
-                <td className="px-6 py-4 text-sm text-gray-500">{room.facility}</td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(room.status)}`}>
-                    {room.status}
-                  </span>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                  <button className="text-gray-400 hover:text-gray-500">
-                    <FiMoreVertical />
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-
-        {/* Pagination */}
-        <div className="bg-white px-4 py-3 flex items-center justify-between border-t">
-          <div className="flex-1 flex justify-center">
-            <nav className="relative z-0 inline-flex shadow-sm -space-x-px">
-              <button className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
-                Previous
-              </button>
-              <button className="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-blue-600 hover:bg-gray-50">1</button>
-              <button className="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">2</button>
-              <button className="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">3</button>
-              <button className="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">4</button>
-              <button className="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">5</button>
-              <button className="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">6</button>
-              <button className="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">7</button>
-              <button className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
-                Next
-              </button>
-            </nav>
-          </div>
-        </div>
-      </div>
-
-      {/* Create Room Modal */}
-      <CreateRoom
-        isOpen={showModalCreateRoom}
-        onClose={() => setShowModalCreateRoom(false)}
-        onSubmit={handleCreateRoom}
-      />
     </div>
   );
 };

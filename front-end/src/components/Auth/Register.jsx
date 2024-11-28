@@ -80,16 +80,6 @@ const Register = ({ toggleToLogin, toggleModal,onRegisterSuccess }) => {
                         Đăng ký
                     </button>
 
-                    <div className="flex items-center justify-center my-4">
-                        <span className="border-t border-gray-300 flex-grow"></span>
-                        <span className="px-4 text-gray-500">hoặc</span>
-                        <span className="border-t border-gray-300 flex-grow"></span>
-                    </div>
-
-                    <button className="w-full flex items-center justify-center text-black py-3 border border-gray-300 rounded-lg hover:bg-gray-100">
-                        <FaGoogle className="mr-2 text-red-500" /> Tiếp tục với Google
-                    </button>
-
                 </div>
 
                 <p className="text-center text-gray-500 mt-6">

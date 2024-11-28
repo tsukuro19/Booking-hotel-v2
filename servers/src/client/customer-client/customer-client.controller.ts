@@ -44,9 +44,9 @@ export class CustomerClientController {
     ) {
         try {
             const result = await this.customerClientService.updateCustomerClientById(customerId, data);
-            return responseConfig(res, result, "Update password success", 200);  // Make sure to return the updated customer information
+            return responseConfig(res, result, "Update client success", 200);  // Make sure to return the updated customer information
         } catch (error) {
-            return responseConfig(res, error, "Update password success", 200);
+            return responseConfig(res, error, "Internal server error", 500);
         }
     }
 }
