@@ -20,7 +20,7 @@ const Comments = ({ comments, onUpdate, onDelete }) => {
     };
 
     return (
-        <div>
+        <div className="max-w-7xl mx-auto">
             {comments.length > 0 ? (
                 comments.map((comment) => (
                     <div key={comment.id} className="mb-4 p-4 border border-gray-200 rounded">
@@ -56,13 +56,13 @@ const Comments = ({ comments, onUpdate, onDelete }) => {
                                 <textarea
                                     value={updatedContent}
                                     onChange={(e) => setUpdatedContent(e.target.value)}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded"
+                                    className="w-full px-4 py-2 border border-gray-300 rounded max-w-md mx-auto"
                                     placeholder="Update your comment..."
                                 />
                                 <select
                                     value={updatedRating}
                                     onChange={(e) => setUpdatedRating(e.target.value)}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded mt-2"
+                                    className="w-full px-4 py-2 border border-gray-300 rounded mt-2 max-w-md mx-auto"
                                 >
                                     <option value="1">1 Star</option>
                                     <option value="2">2 Stars</option>
