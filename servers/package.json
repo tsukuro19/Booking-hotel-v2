@@ -48,8 +48,13 @@
     "prisma": "^5.21.1",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1",
+<<<<<<< HEAD
     "socket.io": "^4.8.1",
     "stripe": "^17.4.0"
+=======
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
+>>>>>>> fb7406fe16a7b2734fa87f317f359a9f3853535e
   },
   "devDependencies": {
     "@mermaid-js/mermaid-cli": "^11.4.0",
