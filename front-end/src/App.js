@@ -21,6 +21,9 @@ import { Elements } from '@stripe/react-stripe-js';
 import ListBooking from './pages/account/ListBooking';
 import Message from './components/Message';
 
+import MyHotels from './components/Manage/MyHotels';
+import AddHotel from './components/Manage/AddHotel';
+
 // import { ToastContainer } from 'react-toastify';
 
 // import Footer from './components/Footer';
@@ -56,8 +59,14 @@ function App() {
       <Route path="/account/preferences" element={<PreferencesSettings />} />
       <Route path="/account/security" element={<SecuritySettings />} />
       <Route path="/account/payment" element={<PaymentSettings />} />
+<<<<<<< HEAD
       <Route path="/account/list-booking" element={<ListBooking />} />
       <Route path="/message/:managerId" element={<Message />} />
+=======
+
+      <Route path="/my-hotels" element={<MyHotels />} />
+      <Route path="/add-hotel" element={<AddHotel />} />
+>>>>>>> fb7406fe16a7b2734fa87f317f359a9f3853535e
       {/* <ToastContainer
         position="top-right"
         autoClose={5000}

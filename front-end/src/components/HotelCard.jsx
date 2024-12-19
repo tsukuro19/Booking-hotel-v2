@@ -4,7 +4,7 @@ import { FaHeart } from "react-icons/fa";
 const HotelCard = ({ image, name, rating, location }) => {
     return (
         <div className="max-w-sm relative">
-            <img className="w-full h-auto object-cover rounded-lg" src={image} alt={name} />
+            <img className="w-full h-64 object-cover rounded-lg" src={image} alt={name} />
             <div className="absolute top-4 right-4 opacity-70 hover:opacity-100 transition-opacity duration-300">
                 <FaHeart size={28} />
             </div>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { createHotel } from '../services/apiServices';
 import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router-dom';
 
 const HotelRegistrationForm = () => {
   const [formData, setFormData] = useState({
@@ -10,21 +11,20 @@ const HotelRegistrationForm = () => {
     country: '',
     phone_number: '',
     room_quantity: '',
-    description:'',
+    description: '',
     imageUrls: [],
   });
 
-  // Get managerId from cookies
   const managerId = Cookies.get('managerId');
+  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
-  console.log(formData.imageUrls);
+
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
-    console.log(files);
     const readers = files.map((file) => {
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -33,7 +33,7 @@ const HotelRegistrationForm = () => {
         reader.readAsDataURL(file);
       });
     });
-  
+
     Promise.all(readers)
       .then((urls) => {
         setFormData((prevFormData) => ({
@@ -46,31 +46,25 @@ const HotelRegistrationForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Convert room_quantity to an integer before submitting
     const updatedFormData = {
       ...formData,
-      room_quantity: parseInt(formData.room_quantity, 10), // Convert room_quantity to integer
+      room_quantity: parseInt(formData.room_quantity, 10),
     };
 
     const formDataToSend = new FormData();
-
     for (const key in updatedFormData) {
       if (key !== 'imageUrls' && updatedFormData[key]) {
         formDataToSend.append(key, updatedFormData[key]);
       }
     }
-
     updatedFormData.imageUrls.forEach((image) => {
       formDataToSend.append('imageUrls', image);
     });
 
-    // Logic to handle form submission, e.g., sending data to the backend
     try {
-      console.log(managerId);
       const response = await createHotel({ ...updatedFormData, managerId });
       if (response.status === 201) {
-        window.location.href = '/list-hotel'; // Redirect to the hotel list page
+        navigate('/list-hotel'); // Redirect to the Hotel Management page
       }
     } catch (error) {
       console.error('Error creating hotel:', error);

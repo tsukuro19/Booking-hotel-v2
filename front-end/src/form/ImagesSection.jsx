@@ -12,7 +12,7 @@ const ImagesSection = ({ hotelInformation }) => {
                         <img
                             src={images[0]}
                             alt="Large Image"
-                            className="w-[90%] h-auto object-cover rounded-lg shadow-lg mx-auto"
+                            className="w-full h-[500px] object-cover rounded-lg shadow-lg mx-auto transition-transform transform hover:scale-105"
                         />
                     </div>
                 </div>
@@ -24,7 +24,7 @@ const ImagesSection = ({ hotelInformation }) => {
                             <img
                                 src={img}
                                 alt={`Small Image ${index + 1}`}
-                                className="w-[90%] h-auto object-cover rounded-lg shadow-md mx-auto transition-transform transform hover:scale-105"
+                                className="w-full h-[240px] object-cover rounded-lg shadow-md mx-auto transition-transform transform hover:scale-105"
                             />
                         </div>
                     ))}

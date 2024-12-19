@@ -115,7 +115,7 @@ const HotelDetail = () => {
                 <DetailsSection hotelInformation={hotelInformation} />
 
                 {/* Comments Section */}
-                <div className="mt-12">
+                <div className="mt-12 max-w-7xl mx-auto">
                     <h2 className="text-2xl font-semibold mb-6">Customer Reviews</h2>
 
                     <div className="mb-6">
